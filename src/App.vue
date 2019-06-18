@@ -43,6 +43,28 @@ export default {
   src: local('Helvetica Neue Bold'), url('./assets/fonts/HelveticaNeueBold.woff') format('woff');
 }
 
+.vdp-datepicker {
+  // overflow: hidden;
+  padding-top: 15px;
+  // font-weight: 100;
+  outline: none;
+  border: none;
+  // width: auto;
+  background-color: transparent;
+}
+
+#departing, #returning {
+  font-weight: 100;
+  outline: none;
+  border: none;
+  display: block;
+  width: auto;
+  background-color: transparent;
+  font-size: 56px;
+  text-align: center;
+  width: 200px;
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
 }

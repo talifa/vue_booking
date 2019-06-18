@@ -6,12 +6,11 @@ import Search from "../components/Menu/Search";
 import Manage from "../components/Menu/Manage";
 import Status from "../components/Menu/Status";
 import History from "../components/Menu/History";
+import NotFoundComponent from "../components/NotFoundComponent";
 
 Vue.use(Router);
 
 export default new Router({
-  mode: "history",
-
   routes: [
     {
       path: "/home",
@@ -36,6 +35,14 @@ export default new Router({
     {
       path: "/history",
       component: History
+    },
+    {
+      path: "/",
+      component: HomePage
+    },
+    {
+      path: "*",
+      component: NotFoundComponent
     }
   ]
 });

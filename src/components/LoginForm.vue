@@ -1,8 +1,8 @@
 <template lang='pug'>
   form(method='POST' action='/register').form
-      div.form-group
-          input#name.form-control(type='text',  v-model='username')
-          label(for='username', v-bind:class="{ filled: username != '' }") Name 
+      //- div.form-group
+      //-     input#name.form-control(type='text',  v-model='username')
+      //-     label(for='username', v-bind:class="{ filled: username != '' }") Name 
       div.form-group
           input#email.form-control(type='email',  v-model='email')
           label(for='email', v-bind:class="{ filled: email != '' }") Email

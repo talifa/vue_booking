@@ -7,36 +7,36 @@
           .fieldset
             div.form-group
                 label(for='from', v-bind:class="{ filled: from != '' }") From 
-                input#from.form-control(type='text',  v-model='from.short')
+                input#from.form-control(type='text',  v-model.trim='from.short')
                 span {{ from.full }}
             a.switcher(v-on:click="switcher")
               
               
             div.form-group
                 label(for='to', v-bind:class="{ filled: to != '' }") To
-                input#to.form-control(type='text',  v-bind:placeholder="to.short" v-model='to.short')
+                input#to.form-control(type='text',  v-bind:placeholder="to.short" v-model.trim='to.short')
                 span {{ to.full}}
 
           .fieldset
             div.form-group
                 label(for='departing', v-bind:class="{ filled: departing != '' }") departing 
-                datepicker#departing.form-control(type='text', placeholder='10/02'  v-model='departing')
+                datepicker#departing.form-control(:format="format", :disabledDates="disabledDates", placeholder='01/01'  v-model='departing')
                 span Saturday, 2018
             
             div.form-group
                 label(for='returning', v-bind:class="{ filled: returning != '' }") returning
-                datepicker#returning.form-control(type='text',  placeholder='10/02'  v-model='returning')
+                datepicker#returning.form-control(:format="format", :disabledDates="disabledDates", placeholder='01/01'  v-model='returning')
                 span Saturday, 2018
 
           .fieldset
             div.form-group
                 label(for='passengers', v-bind:class="{ filled: passengers != '' }") passengers 
-                input#passengers.form-control(type='number',  placeholder='3'  v-model='passengers')
-                span 3 Adults
+                input#passengers.form-control(type='number',  placeholder='0'  v-model.number='passengers')
+                span {{passengers ? passengers : 0}} Adults
             div.form-group.--blue
                 label(for='class', v-bind:class="{ filled: status != '' }") class
-                input#status.form-control(type='text',  placeholder='BC'  v-model='status')
-                span Business Class
+                input#status.form-control(type='text', value="BC" placeholder='BC'  v-model.trim='sname')
+                span {{ status[sname] }}
           button.btn.btn-primary(type='submit') Search Flights
 
 
@@ -55,12 +55,17 @@ export default {
     Datepicker
   },
   data: () => ({
+    format: "dd/MM",
     from: { short: "PTB", full: "Petersburg" },
     to: { short: "MSW", full: "Moscow" },
     departing: "",
     returning: "",
     passengers: "",
-    status: ""
+    disabledDates: {
+      to: new Date() // Disable all dates up to specific date
+    },
+    sname: "",
+    status: { BC: "Business Class", FC: "First Class", EC: "Econom Class" }
   }),
   methods: {
     switcher: function(event) {
@@ -165,6 +170,7 @@ form {
 
     &::placeholder {
       color: #ffffff;
+      opacity: 0.4;
     }
   }
 
