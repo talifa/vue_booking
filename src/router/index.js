@@ -11,37 +11,50 @@ import NotFoundComponent from "../components/NotFoundComponent";
 Vue.use(Router);
 
 export default new Router({
+  mode: "history",
   routes: [
     {
-      path: "/home",
-      component: HomePage
-    },
-    {
       path: "/login",
+      name: "login",
       component: LoginPage
     },
     {
       path: "/search",
-      component: Search
+      name: "search",
+      component: Search,
+      alias: ["/home"]
     },
     {
       path: "/manage",
+      name: "manage",
       component: Manage
     },
     {
       path: "/status",
+      name: "status",
       component: Status
     },
     {
       path: "/history",
+      name: "history",
       component: History
     },
     {
       path: "/",
-      component: HomePage
+      redirect: {
+        name: "login"
+      }
     },
+
+    {
+      path: "/secure",
+      name: "secure",
+      component: Search
+    },
+
     {
       path: "*",
+      name: "404",
       component: NotFoundComponent
     }
   ]

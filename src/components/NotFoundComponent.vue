@@ -1,17 +1,21 @@
 <template lang='pug'>
   .notfound 
     Header
-    .container
-      h2 These aren't the droids you're looking for.
+    Menu
+    center.container
+      img(src='http://pixelartmaker.com/art/6f2e7843902ca0a.png' width=200)
+      h2 This is not the page you're looking for.
 </template>
 
 <script>
 import Header from "./Header";
+import Menu from "./Menu";
 
 export default {
   name: "NotFoundComponent",
   components: {
-    Header
+    Header,
+    Menu
   }
 };
 </script>

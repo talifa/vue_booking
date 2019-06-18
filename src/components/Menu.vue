@@ -1,10 +1,9 @@
 <template lang="pug">
   #menu-nav
-    router-link(:to="{ path: '/search'}").link Search
-    router-link(:to="{ path: '/manage'}").link Manage
-    router-link(:to="{ path: '/status'}").link Status
-    router-link(:to="{ path: '/history'}").link History
-    br
+    router-link(:to="{ name: 'search' }").link Search
+    router-link(:to="{ name: 'manage' }").link Manage
+    router-link(:to="{ name: 'status' }").link Status
+    router-link(:to="{ name: 'history' }").link History
     router-view
 </template>
 
@@ -18,6 +17,8 @@ export default {
 <style scoped lang="stylus">
 #menu-nav {
   padding-top: 30px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .link {
@@ -27,11 +28,11 @@ export default {
   font-size: 25px;
   font-weight: 700;
   position: relative;
-  margin-right: 55px;
+  // margin-right: 55px;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 
   &:last-of-type {
-    margin-right: 0px;
+    // margin-right: 0px;
   }
 }
 

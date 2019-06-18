@@ -2,7 +2,8 @@
   header.header 
     .logo
       .logo-bg
-        img.logo-img(src='../assets/img/logo.png')
+         a(href='#')
+           img.logo-img(src='../assets/img/logo.png')
 </template>
 
 <script>

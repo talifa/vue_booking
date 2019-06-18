@@ -3,41 +3,45 @@
     Header
     Menu
     .container 
-      form(method='POST' action='/register').form
+      form(method='POST'  @submit.prevent="checkForm" id="form_search").form
           .fieldset
             div.form-group
-                label(for='from', v-bind:class="{ filled: from != '' }") From 
-                input#from.form-control(type='text',  v-model.trim='from.short')
-                span {{ from.full }}
+                label(for='from', ) From 
+                input#from.form-control(type='text',  v-model.trim='from[0].short')
+                span {{ from[0].full}}
             a.switcher(v-on:click="switcher")
               
               
             div.form-group
-                label(for='to', v-bind:class="{ filled: to != '' }") To
-                input#to.form-control(type='text',  v-bind:placeholder="to.short" v-model.trim='to.short')
-                span {{ to.full}}
+                label(for='to', ) To
+                input#to.form-control(type='text',  v-bind:placeholder="to.short" v-model.trim='to[0].short')
+                span {{ to[0].full}}
 
           .fieldset
             div.form-group
-                label(for='departing', v-bind:class="{ filled: departing != '' }") departing 
+                label(for='departing', ) departing 
                 datepicker#departing.form-control(:format="format", :disabledDates="disabledDates", placeholder='01/01'  v-model='departing')
                 span Saturday, 2018
             
             div.form-group
-                label(for='returning', v-bind:class="{ filled: returning != '' }") returning
+                label(for='returning', ) returning
                 datepicker#returning.form-control(:format="format", :disabledDates="disabledDates", placeholder='01/01'  v-model='returning')
                 span Saturday, 2018
 
           .fieldset
             div.form-group
-                label(for='passengers', v-bind:class="{ filled: passengers != '' }") passengers 
+                label(for='passengers', ) passengers 
                 input#passengers.form-control(type='number',  placeholder='0'  v-model.number='passengers')
                 span {{passengers ? passengers : 0}} Adults
             div.form-group.--blue
-                label(for='class', v-bind:class="{ filled: status != '' }") class
+                label(for='class',) class
                 input#status.form-control(type='text', value="BC" placeholder='BC'  v-model.trim='sname')
                 span {{ status[sname] }}
-          button.btn.btn-primary(type='submit') Search Flights
+          p.errors(v-if="errors.length")
+            b Some errors in fields:
+            ul 
+              li(v-for="error in errors") {{ error }}
+          button.btn(type='submit') Search Flights
 
 
 </template>
@@ -55,12 +59,13 @@ export default {
     Datepicker
   },
   data: () => ({
+    errors: [],
     format: "dd/MM",
-    from: { short: "PTB", full: "Petersburg" },
-    to: { short: "MSW", full: "Moscow" },
-    departing: "",
-    returning: "",
-    passengers: "",
+    from: [{ full: "Petersburg", short: "PTB" }],
+    to: [{ full: "Moscow", short: "MCW" }],
+    departing: null,
+    returning: null,
+    passengers: null,
     disabledDates: {
       to: new Date() // Disable all dates up to specific date
     },
@@ -72,6 +77,25 @@ export default {
       this.buffer = this.from;
       this.from = this.to;
       this.to = this.buffer;
+    },
+    checkForm: function(e) {
+      if (this.from && this.departing && this.passengers) {
+        this.$router.push("no");
+        return true;
+      }
+
+      this.errors = [];
+
+      if (!this.from) {
+        this.errors.push("From?");
+      }
+      if (!this.departing) {
+        this.errors.push("Departing?");
+      }
+      if (!this.passengers) {
+        this.errors.push("Passengers?");
+      }
+      e.preventDefault();
     }
   }
 };

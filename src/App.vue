@@ -1,9 +1,12 @@
 <template lang="pug">
   #app
-    router-link(:to="{ path: '/home'}").link Home page
-    router-link(:to="{ path: '/login'}").link Login
-    br
-    router-view
+    //- router-link(:to="{ name: 'search' }").link Home page
+    //- router-link(:to="{ name: 'login' }").link Login
+    router-link(:to="{ name: 'login' }" v-if="authenticated" v-on:click.native="logout()" replace).link.logout Log out
+    router-view(@authenticated="setAuthenticated")
+    //- router-view
+
+    
 </template>
 
 <script>
@@ -15,6 +18,28 @@ export default {
   components: {
     LoginPage,
     HomePage
+  },
+  data() {
+    return {
+      authenticated: false,
+      mockAccount: {
+        email: "n@n.ru",
+        password: "111"
+      }
+    };
+  },
+  mounted() {
+    if (!this.authenticated) {
+      this.$router.replace({ name: "login" });
+    }
+  },
+  methods: {
+    setAuthenticated(status) {
+      this.authenticated = status;
+    },
+    logout() {
+      this.authenticated = false;
+    }
   }
 };
 </script>
@@ -43,28 +68,6 @@ export default {
   src: local('Helvetica Neue Bold'), url('./assets/fonts/HelveticaNeueBold.woff') format('woff');
 }
 
-.vdp-datepicker {
-  // overflow: hidden;
-  padding-top: 15px;
-  // font-weight: 100;
-  outline: none;
-  border: none;
-  // width: auto;
-  background-color: transparent;
-}
-
-#departing, #returning {
-  font-weight: 100;
-  outline: none;
-  border: none;
-  display: block;
-  width: auto;
-  background-color: transparent;
-  font-size: 56px;
-  text-align: center;
-  width: 200px;
-}
-
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -73,8 +76,20 @@ html {
   font-family: 'Roboto', sans-serif;
 }
 
+body {
+  margin: 0;
+}
+
 h1 {
   margin: 40px 0 0;
+}
+
+.errors {
+  color: #d72027;
+}
+
+.logout {
+  float: right;
 }
 
 #app {
@@ -89,6 +104,25 @@ h1 {
   max-width: 600px;
   width: 100%;
   margin: 0 auto;
+}
+
+.vdp-datepicker {
+  padding-top: 15px;
+  outline: none;
+  border: none;
+  background-color: transparent;
+}
+
+#departing, #returning {
+  font-weight: 100;
+  outline: none;
+  border: none;
+  display: block;
+  width: auto;
+  background-color: transparent;
+  font-size: 56px;
+  text-align: center;
+  width: 200px;
 }
 
 .link {

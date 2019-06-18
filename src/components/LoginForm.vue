@@ -1,5 +1,5 @@
 <template lang='pug'>
-  form(method='POST' action='/register').form
+  form(method='POST' ).form
       //- div.form-group
       //-     input#name.form-control(type='text',  v-model='username')
       //-     label(for='username', v-bind:class="{ filled: username != '' }") Name 
@@ -9,17 +9,44 @@
       div.form-group
           input#password.form-control(type='password',v-model='password')
           label(for='password', v-bind:class="{ filled: password != '' }") Password 
-      button.btn.btn-primary(type='submit') Submit
+      p.errors(v-if="errors.length")
+        b(v-for="error in errors") {{ error }}
+
+      button.btn(v-on:click.prevent="login()") Submit
 </template>
 
 <script>
 export default {
   name: "LoginForm",
-  data: () => ({
-    username: "",
-    email: "",
-    password: ""
-  })
+  data() {
+    return {
+      errors: [],
+      email: "",
+      password: ""
+    };
+  },
+  methods: {
+    login() {
+      if (this.email !== "" && this.password !== "") {
+        if (
+          this.email === this.$parent.$parent.mockAccount.email &&
+          this.password === this.$parent.$parent.mockAccount.password
+        ) {
+          // this.$parent.$parent.authenticated = true;
+          this.$parent.$emit("authenticated", true);
+          this.$router.replace({ name: "search" });
+        } else {
+          this.errors = [];
+          this.errors.push("The username and / or password is incorrect");
+          // e.preventDefault();
+        }
+      } else {
+        this.errors = [];
+        this.errors.push("A username and password must be present");
+        // e.preventDefault();
+      }
+    }
+  }
 };
 </script>
 

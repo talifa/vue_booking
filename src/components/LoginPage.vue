@@ -2,7 +2,7 @@
   .login
     Header
     .container
-      h1 Sing In
+      h1 Sing Up
       LoginForm
 
 </template>
