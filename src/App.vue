@@ -1,9 +1,11 @@
 <template lang="pug">
   #app
+    Header
     //- router-link(:to="{ name: 'search' }").link Home page
     //- router-link(:to="{ name: 'login' }").link Login
     router-link(:to="{ name: 'login' }" v-if="authenticated" v-on:click.native="logout()" replace).link.logout Log out
     router-view(@authenticated="setAuthenticated")
+    
     //- router-view
 
     
@@ -12,18 +14,20 @@
 <script>
 import LoginPage from "./components/LoginPage";
 import HomePage from "./components/HomePage";
+import Header from "./components/Header";
 
 export default {
   name: "App",
   components: {
     LoginPage,
-    HomePage
+    HomePage,
+    Header
   },
   data() {
     return {
       authenticated: false,
       mockAccount: {
-        email: "n@n.ru",
+        email: "n",
         password: "111"
       }
     };
@@ -89,7 +93,13 @@ h1 {
 }
 
 .logout {
-  float: right;
+  position: absolute;
+  right: 15px;
+  top: 15px;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 #app {

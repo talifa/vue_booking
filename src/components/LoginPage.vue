@@ -1,6 +1,5 @@
 <template lang="pug">
   .login
-    Header
     .container
       h1 Sing Up
       LoginForm

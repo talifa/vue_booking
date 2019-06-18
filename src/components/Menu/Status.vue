@@ -1,6 +1,5 @@
 <template lang="pug">
   #Status
-    Header
     Menu
     h1 Status
 

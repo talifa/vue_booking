@@ -1,6 +1,5 @@
 <template lang="pug">
   #History
-    Header
     Menu
     h1 History
 

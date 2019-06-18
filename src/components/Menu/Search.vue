@@ -1,6 +1,5 @@
 <template lang="pug">
   #Search
-    Header
     Menu
     .container 
       form(method='POST'  @submit.prevent="checkForm" id="form_search").form

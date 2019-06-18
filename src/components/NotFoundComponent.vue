@@ -1,6 +1,5 @@
 <template lang='pug'>
   .notfound 
-    Header
     Menu
     center.container
       img(src='http://pixelartmaker.com/art/6f2e7843902ca0a.png' width=200)

@@ -2,15 +2,18 @@
   header.header 
     .logo
       .logo-bg
-         a(href='#')
-           img.logo-img(src='../assets/img/logo.png')
+        a(href='' v-on:click.prevent='goBack()')
+          img.logo-img(src='../assets/img/logo.png')
+
 </template>
 
 <script>
 export default {
   name: "Header",
-  props: {
-    msg: String
+  methods: {
+    goBack() {
+      this.$router.push("home");
+    }
   }
 };
 </script>

@@ -1,6 +1,5 @@
 <template lang="pug">
   #Manage
-    Header
     Menu
     h1 Manage
 

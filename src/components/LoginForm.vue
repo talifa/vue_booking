@@ -4,7 +4,7 @@
       //-     input#name.form-control(type='text',  v-model='username')
       //-     label(for='username', v-bind:class="{ filled: username != '' }") Name 
       div.form-group
-          input#email.form-control(type='email',  v-model='email')
+          input#email.form-control(type='text',  v-model='email')
           label(for='email', v-bind:class="{ filled: email != '' }") Email
       div.form-group
           input#password.form-control(type='password',v-model='password')

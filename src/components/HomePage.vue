@@ -1,6 +1,5 @@
 <template lang="pug">
   .login
-    Header
     Menu
 </template>
 
