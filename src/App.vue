@@ -121,7 +121,8 @@ h1 {
     font-size: 55px;
   }
 
- 
+  .vs__search {
+  }
 
   .vs__search::placeholder, .vs__dropdown-toggle, .vs__selected-options {
     background: transparent;
@@ -134,6 +135,9 @@ h1 {
   .vs__selected {
     font-weight: 100;
     padding: 0;
+    width: 100%;
+    justify-content: center;
+    margin: 0;
   }
 }
 
@@ -142,7 +146,8 @@ h1 {
     color: #fff;
     // padding-left: 40px;
   }
-   .vs__search::placeholder {
+
+  .vs__search::placeholder {
     color: #fff;
   }
 }

@@ -6,43 +6,43 @@
           .fieldset
             div.form-group(v-bind:class="{ error_br: errors.from }")
                 label(for='from', ) From 
-                v-select#from.form-control(type='text', spellcheck="false", :options="from", label='short'  placeholder='AAA'  v-model='from_country')
+                v-select#from.form-control(type='text', spellcheck="false", :options="from", label='short',  placeholder='MSC' , v-model='from_country')
                   template(slot="from_option" slot-scope="from_option")
                     span {{ from_option.full }}
-                span {{ from_country ? from_country.full : ''}}
+                span.bottom_text {{ from_country ? from_country.full : ''}}
             a.switcher(v-on:click="switcher")
               
               
             div.form-group
                 label(for='to', ) To
-                v-select#to.form-control(type='text', spellcheck="false", :options="to", label='short'  placeholder='AAA' v-model='to_country')
+                v-select#to.form-control(type='text', spellcheck="false", :options="to", label='short',  placeholder='MSC', v-model='to_country')
                   template(slot="to_option" slot-scope="to_option")
                     span {{ to_option.full }}
-                span {{ to_country ? to_country.full : ''}}
+                span.bottom_text {{ to_country ? to_country.full : ''}}
 
           .fieldset
             div.form-group(v-bind:class="{ error_br: errors.date }")
                 label(for='departing', ) departing 
-                datepicker#departing.form-control(:format="format", :disabledDates="disabledDates",   placeholder='20/01'  v-model='departing')
+                datepicker#departing.form-control(:format="format", :disabledDates="disabledDates",   placeholder='20/01',  v-model='departing')
                 span {{customFormatter(departing)}}
             
             div.form-group
                 label(for='returning', ) returning
-                datepicker#returning.form-control(:format="format", :disabledDates="disabledDates",  placeholder='21/01'  v-model='returning')
-                span {{customFormatter(returning)}}
+                datepicker#returning.form-control(:format="format", :disabledDates="disabledDates",  placeholder='21/01',  v-model='returning')
+                span.bottom_text {{customFormatter(returning)}}
 
           .fieldset
             div.form-group(v-bind:class="{ error_br: errors.pass }")
                 label(for='passengers', ) passengers 
-                input#passengers.form-control(type='number',  placeholder='0'  v-model.number='passengers')
-                span {{passengers ? passengers : 0}} Adults
+                input#passengers.form-control(type='number',  placeholder='0',  v-model.number='passengers')
+                span.bottom_text {{passengers ? passengers : 0}} Adults
             div.form-group.--blue
                 label(for='class',) class
-                v-select#status.form-control(:options="status", label='code'  placeholder='BC'  v-model='sname')
+                v-select#status.form-control(:options="status", label='code',  placeholder='BC',  v-model='sname')
                   template(slot="option" slot-scope="option")
                     span {{ option.label }}
           
-                span.option-span {{ sname ? sname.label : '' }}
+                span.bottom_text.option-span {{ sname ? sname.label : '' }}
           p.errors(v-if="errors.length")
             b Some errors in fields:
             ul 
@@ -74,10 +74,17 @@ export default {
     to_country: null,
     from: [
       { full: "Petersburg", short: "PTB" },
-      { full: "Moscow", short: "MCW" }
+      { full: "Petersburg", short: "PTB" },
+      { full: "Petersburg", short: "PTB" },
+      { full: "Petersburg", short: "PTB" },
+      { full: "Moscow", short: "MSC" }
     ],
     to: [
-      { full: "Moscow", short: "MCW" },
+      { full: "Moscow", short: "MSC" },
+      { full: "Petersburg", short: "PTB" },
+      { full: "Petersburg", short: "PTB" },
+      { full: "Petersburg", short: "PTB" },
+      { full: "Petersburg", short: "PTB" },
       { full: "Petersburg", short: "PTB" }
     ],
     departing: null,
@@ -181,9 +188,10 @@ form {
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25), 0 5px 5px rgba(0, 0, 0, 0.22);
     }
 
-    span {
-      margin-top: auto;
-      margin-bottom: 15px;
+    .bottom_text {
+      position: absolute;
+      bottom: 15px;
+      width: 100%;
     }
   }
 
