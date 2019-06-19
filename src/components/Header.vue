@@ -12,7 +12,7 @@ export default {
   name: "Header",
   methods: {
     goBack() {
-      this.$router.push("home");
+      this.$router.push("search");
     }
   }
 };

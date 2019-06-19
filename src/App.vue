@@ -15,7 +15,7 @@
 import LoginPage from "./components/LoginPage";
 import HomePage from "./components/HomePage";
 import Header from "./components/Header";
-
+import "vue-select/dist/vue-select.css";
 export default {
   name: "App",
   components: {
@@ -76,8 +76,13 @@ export default {
   box-sizing: border-box;
 }
 
-html {
+html * {
   font-family: 'Roboto', sans-serif;
+}
+
+*::placeholder {
+  font-weight: 100;
+  opacity: 0.5;
 }
 
 body {
@@ -92,6 +97,10 @@ h1 {
   color: #d72027;
 }
 
+.error_br {
+  border: 1px solid rgba(215, 32, 39, 1) !important;
+}
+
 .logout {
   position: absolute;
   right: 15px;
@@ -99,6 +108,42 @@ h1 {
 
   &:hover {
     text-decoration: underline;
+  }
+}
+
+#Search {
+  .vs__actions {
+    // fill: #ffffff;
+    display: none;
+  }
+
+  .vs__search::placeholder, .vs__selected-options {
+    font-size: 55px;
+  }
+
+ 
+
+  .vs__search::placeholder, .vs__dropdown-toggle, .vs__selected-options {
+    background: transparent;
+    border: none;
+    text-align: center;
+    font-weight: 100;
+    outline: none;
+  }
+
+  .vs__selected {
+    font-weight: 100;
+    padding: 0;
+  }
+}
+
+#status {
+  .vs__selected {
+    color: #fff;
+    // padding-left: 40px;
+  }
+   .vs__search::placeholder {
+    color: #fff;
   }
 }
 
@@ -146,7 +191,7 @@ h1 {
   color: green;
 }
 
-button {
+.btn {
   width: 100%;
   padding: 1em 2.5em;
   margin-top: 15px;

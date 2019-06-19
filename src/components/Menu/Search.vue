@@ -4,38 +4,45 @@
     .container 
       form(method='POST'  @submit.prevent="checkForm" id="form_search").form
           .fieldset
-            div.form-group
+            div.form-group(v-bind:class="{ error_br: errors.from }")
                 label(for='from', ) From 
-                input#from.form-control(type='text',  v-model.trim='from[0].short')
-                span {{ from[0].full}}
+                v-select#from.form-control(type='text', spellcheck="false", :options="from", label='short'  placeholder='AAA'  v-model='from_country')
+                  template(slot="from_option" slot-scope="from_option")
+                    span {{ from_option.full }}
+                span {{ from_country ? from_country.full : ''}}
             a.switcher(v-on:click="switcher")
               
               
             div.form-group
                 label(for='to', ) To
-                input#to.form-control(type='text',  v-bind:placeholder="to.short" v-model.trim='to[0].short')
-                span {{ to[0].full}}
+                v-select#to.form-control(type='text', spellcheck="false", :options="to", label='short'  placeholder='AAA' v-model='to_country')
+                  template(slot="to_option" slot-scope="to_option")
+                    span {{ to_option.full }}
+                span {{ to_country ? to_country.full : ''}}
 
           .fieldset
-            div.form-group
+            div.form-group(v-bind:class="{ error_br: errors.date }")
                 label(for='departing', ) departing 
-                datepicker#departing.form-control(:format="format", :disabledDates="disabledDates", placeholder='01/01'  v-model='departing')
-                span Saturday, 2018
+                datepicker#departing.form-control(:format="format", :disabledDates="disabledDates",   placeholder='20/01'  v-model='departing')
+                span {{customFormatter(departing)}}
             
             div.form-group
                 label(for='returning', ) returning
-                datepicker#returning.form-control(:format="format", :disabledDates="disabledDates", placeholder='01/01'  v-model='returning')
-                span Saturday, 2018
+                datepicker#returning.form-control(:format="format", :disabledDates="disabledDates",  placeholder='21/01'  v-model='returning')
+                span {{customFormatter(returning)}}
 
           .fieldset
-            div.form-group
+            div.form-group(v-bind:class="{ error_br: errors.pass }")
                 label(for='passengers', ) passengers 
                 input#passengers.form-control(type='number',  placeholder='0'  v-model.number='passengers')
                 span {{passengers ? passengers : 0}} Adults
             div.form-group.--blue
                 label(for='class',) class
-                input#status.form-control(type='text', value="BC" placeholder='BC'  v-model.trim='sname')
-                span {{ status[sname] }}
+                v-select#status.form-control(:options="status", label='code'  placeholder='BC'  v-model='sname')
+                  template(slot="option" slot-scope="option")
+                    span {{ option.label }}
+          
+                span.option-span {{ sname ? sname.label : '' }}
           p.errors(v-if="errors.length")
             b Some errors in fields:
             ul 
@@ -49,19 +56,30 @@
 import Header from "../Header";
 import Menu from "../Menu";
 import Datepicker from "vuejs-datepicker";
+import vSelect from "vue-select";
+import "vue-select/dist/vue-select.css";
 
 export default {
   name: "Search",
   components: {
     Header,
     Menu,
-    Datepicker
+    Datepicker,
+    vSelect
   },
   data: () => ({
-    errors: [],
+    errors: {},
     format: "dd/MM",
-    from: [{ full: "Petersburg", short: "PTB" }],
-    to: [{ full: "Moscow", short: "MCW" }],
+    from_country: null,
+    to_country: null,
+    from: [
+      { full: "Petersburg", short: "PTB" },
+      { full: "Moscow", short: "MCW" }
+    ],
+    to: [
+      { full: "Moscow", short: "MCW" },
+      { full: "Petersburg", short: "PTB" }
+    ],
     departing: null,
     returning: null,
     passengers: null,
@@ -69,13 +87,29 @@ export default {
       to: new Date() // Disable all dates up to specific date
     },
     sname: "",
-    status: { BC: "Business Class", FC: "First Class", EC: "Econom Class" }
+    status: [
+      { label: "Business Class", code: "BC" },
+      { label: "First Class", code: "FC" },
+      { label: "Econom Class", code: "EC" }
+    ]
   }),
   methods: {
     switcher: function(event) {
-      this.buffer = this.from;
-      this.from = this.to;
-      this.to = this.buffer;
+      this.buffer = this.from_country;
+      this.from_country = this.to_country;
+      this.to_country = this.buffer;
+    },
+    customFormatter(date) {
+      let date_new;
+      let options = {
+        weekday: "long",
+        year: "numeric"
+      };
+      if (date) {
+        date_new = date.toLocaleString("en-US", options);
+      }
+
+      return date_new;
     },
     checkForm: function(e) {
       if (this.from && this.departing && this.passengers) {
@@ -86,13 +120,16 @@ export default {
       this.errors = [];
 
       if (!this.from) {
-        this.errors.push("From?");
+        // this.errors.push("From");
+        this.errors.from = true;
       }
       if (!this.departing) {
-        this.errors.push("Departing?");
+        // this.errors.push("Departing");
+        this.errors.date = true;
       }
       if (!this.passengers) {
-        this.errors.push("Passengers?");
+        // this.errors.push("Passengers");
+        this.errors.pass = true;
       }
       e.preventDefault();
     }
@@ -136,7 +173,7 @@ form {
     height: 200px;
     border: none;
     box-shadow: 0 3px 20px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition: all 0.5s ease-out;
     border-radius: 10px;
     color: #313131;
 
@@ -160,7 +197,7 @@ form {
     display: inline-block;
 
     &::placeholder {
-      font-weight: 100;
+      font-weight: 100 !important;
     }
   }
 
@@ -185,28 +222,33 @@ form {
 
 .--blue {
   background-image: linear-gradient(to top, #406dc0 0%, #335ca7 100%);
-  color: #ffffff;
 
-  input {
-    background-color: transparent;
+  .vs__selected-options .vs__selected {
     color: #ffffff;
+  }
 
-    &::placeholder {
-      color: #ffffff;
-      opacity: 0.4;
-    }
+  .vs--single .vs__selected {
+    color: #ffffff;
+  }
+
+  .vs__search, .vs__search:focus {
+    color: #ffffff;
+  }
+
+  .vs__search::placeholder {
+    color: #ffffff;
   }
 
   label {
     color: #ffffff;
   }
 
-  span {
+  .option-span {
     color: #ffffff;
   }
 }
 
-button {
+.btn {
   align-self: center;
   width: 351px;
   height: 65px;
