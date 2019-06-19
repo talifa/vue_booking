@@ -6,7 +6,7 @@
           .fieldset
             div.form-group(v-bind:class="{ error_br: errors.from }")
                 label(for='from', ) From 
-                v-select#from.form-control(type='text', spellcheck="false", :options="from", label='short',  placeholder='MSC' , v-model='from_country')
+                v-select#from.form-control(type='text', spellcheck="false", :options="from", label='short',    v-model='from_country')
                   template(slot="from_option" slot-scope="from_option")
                     span {{ from_option.full }}
                 span.bottom_text {{ from_country ? from_country.full : ''}}
@@ -15,7 +15,7 @@
               
             div.form-group
                 label(for='to', ) To
-                v-select#to.form-control(type='text', spellcheck="false", :options="to", label='short',  placeholder='MSC', v-model='to_country')
+                v-select#to.form-control(type='text', spellcheck="false", :options="to", label='short',  v-model='to_country')
                   template(slot="to_option" slot-scope="to_option")
                     span {{ to_option.full }}
                 span.bottom_text {{ to_country ? to_country.full : ''}}
@@ -24,7 +24,7 @@
             div.form-group(v-bind:class="{ error_br: errors.date }")
                 label(for='departing', ) departing 
                 datepicker#departing.form-control(:format="format", :disabledDates="disabledDates",   placeholder='20/01',  v-model='departing')
-                span {{customFormatter(departing)}}
+                span.bottom_text {{customFormatter(departing)}}
             
             div.form-group
                 label(for='returning', ) returning
@@ -38,7 +38,7 @@
                 span.bottom_text {{passengers ? passengers : 0}} Adults
             div.form-group.--blue
                 label(for='class',) class
-                v-select#status.form-control(:options="status", label='code',  placeholder='BC',  v-model='sname')
+                v-select#status.form-control(:options="status", label='code',    v-model='sname')
                   template(slot="option" slot-scope="option")
                     span {{ option.label }}
           
@@ -202,11 +202,15 @@ form {
     font-weight: 100;
     outline: none;
     border: none;
-    display: inline-block;
 
     &::placeholder {
       font-weight: 100 !important;
     }
+  }
+
+  .v-select.form-control {
+    // display: flex;
+    // justify-content: center;
   }
 
   input[type='number']::-webkit-outer-spin-button, input[type='number']::-webkit-inner-spin-button {

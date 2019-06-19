@@ -135,6 +135,8 @@ h1 {
   .vs__selected {
     font-weight: 100;
     padding: 0;
+    
+    padding-top: 15px;
     width: 100%;
     justify-content: center;
     margin: 0;
