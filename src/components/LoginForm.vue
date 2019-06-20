@@ -1,5 +1,7 @@
 <template lang='pug'>
-  form(method='POST' ).form
+  
+  form().form
+    
       //- div.form-group
       //-     input#name.form-control(type='text',  v-model='username')
       //-     label(for='username', v-bind:class="{ filled: username != '' }") Name 
@@ -11,11 +13,16 @@
           label(for='password', v-bind:class="{ filled: password != '' }") Password 
       p.errors(v-if="errors.length")
         b(v-for="error in errors") {{ error }}
+      
 
       button.btn(v-on:click.prevent="login()") Submit
+      div(v-for="item in TODOS") {{item.name}}
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import { mapActions } from "vuex";
+
 export default {
   name: "LoginForm",
   data() {
@@ -25,7 +32,14 @@ export default {
       password: ""
     };
   },
+  computed: {
+    ...mapGetters(["TODOS"])
+    // Другие вычисляемые свойства
+  },
+
   methods: {
+    ...mapActions(["GET_TODO"]),
+
     login() {
       if (this.email !== "" && this.password !== "") {
         if (
@@ -46,6 +60,9 @@ export default {
         // e.preventDefault();
       }
     }
+  },
+  mounted() {
+    this.GET_TODO();
   }
 };
 </script>

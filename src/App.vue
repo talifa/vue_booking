@@ -12,8 +12,8 @@
 </template>
 
 <script>
-import LoginPage from "./components/LoginPage";
-import HomePage from "./components/HomePage";
+import LoginPage from "./views/LoginPage";
+import HomePage from "./views/HomePage";
 import Header from "./components/Header";
 import "vue-select/dist/vue-select.css";
 export default {
