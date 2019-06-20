@@ -2,7 +2,7 @@
   {
     "id": 1,
     "name": "Leanne Graham",
-    "username": "Bret",
+    "password": "12345",
     "email": "Sincere@april.biz",
     "address": {
       "street": "Kulas Light",
@@ -25,7 +25,7 @@
   {
     "id": 2,
     "name": "Ervin Howell",
-    "username": "Antonette",
+    "password": "12345",
     "email": "Shanna@melissa.tv",
     "address": {
       "street": "Victor Plains",
@@ -48,7 +48,7 @@
   {
     "id": 3,
     "name": "Clementine Bauch",
-    "username": "Samantha",
+    "password": "12345",
     "email": "Nathan@yesenia.net",
     "address": {
       "street": "Douglas Extension",

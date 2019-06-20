@@ -1,6 +1,5 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import Axios from "axios";
 import auth from "../modules/auth";
 
 Vue.use(Vuex);

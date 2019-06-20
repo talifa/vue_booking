@@ -14,8 +14,7 @@ export default {
   components: {
     Header,
     LoginForm
-  },
-
+  }
 };
 </script>
 

@@ -1,6 +1,6 @@
 <template lang='pug'>
   
-  form().form
+  form(@submit.prevent="login").form
     
       //- div.form-group
       //-     input#name.form-control(type='text',  v-model='username')
@@ -15,7 +15,7 @@
         b(v-for="error in errors") {{ error }}
       
 
-      button.btn(v-on:click.prevent="login()") Submit
+      button.btn(type="submit") Submit
       div(v-for="item in TODOS") {{item.name}}
 </template>
 
@@ -41,24 +41,12 @@ export default {
     ...mapActions(["GET_TODO"]),
 
     login() {
-      if (this.email !== "" && this.password !== "") {
-        if (
-          this.email === this.$parent.$parent.mockAccount.email &&
-          this.password === this.$parent.$parent.mockAccount.password
-        ) {
-          // this.$parent.$parent.authenticated = true;
-          this.$parent.$emit("authenticated", true);
-          this.$router.replace({ name: "search" });
-        } else {
-          this.errors = [];
-          this.errors.push("The username and / or password is incorrect");
-          // e.preventDefault();
-        }
-      } else {
-        this.errors = [];
-        this.errors.push("A username and password must be present");
-        // e.preventDefault();
-      }
+      let email = this.email;
+      let password = this.password;
+      this.$store
+        .dispatch("login", { email, password })
+        .then(() => this.$router.push("/404"))
+        .catch(err => console.log(err));
     }
   },
   mounted() {

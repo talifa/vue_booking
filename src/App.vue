@@ -3,7 +3,7 @@
     Header
     //- router-link(:to="{ name: 'search' }").link Home page
     //- router-link(:to="{ name: 'login' }").link Login
-    router-link(:to="{ name: 'login' }" v-if="authenticated" v-on:click.native="logout()" replace).link.logout Log out
+    router-link(:to="{ name: 'login' }" v-if="isLoggedIn" v-on:click.native="logout()" replace).link.logout Log out
     router-view(@authenticated="setAuthenticated")
     
     //- router-view
@@ -37,12 +37,19 @@ export default {
       this.$router.replace({ name: "login" });
     }
   },
+  computed: {
+    isLoggedIn: function() {
+      return this.$store.getters.isLoggedIn;
+    }
+  },
   methods: {
     setAuthenticated(status) {
       this.authenticated = status;
     },
     logout() {
-      this.authenticated = false;
+      this.$store.dispatch("logout").then(() => {
+        this.$router.push("/login");
+      });
     }
   }
 };
@@ -135,7 +142,6 @@ h1 {
   .vs__selected {
     font-weight: 100;
     padding: 0;
-    
     padding-top: 15px;
     width: 100%;
     justify-content: center;
