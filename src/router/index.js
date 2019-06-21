@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
+import { store } from "../store";
 import LoginPage from "../views/LoginPage";
 import HomePage from "../views/HomePage";
 import Search from "../components/Menu/Search";
@@ -10,7 +11,7 @@ import NotFoundComponent from "../components/NotFoundComponent";
 
 Vue.use(Router);
 
-export default new Router({
+let router = new Router({
   mode: "history",
   fallback: true,
   routes: [
@@ -23,22 +24,34 @@ export default new Router({
       path: "/search",
       name: "search",
       component: Search,
-      alias: ["/home"]
+      alias: ["/home"],
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: "/manage",
       name: "manage",
-      component: Manage
+      component: Manage,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: "/status",
       name: "status",
-      component: Status
+      component: Status,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: "/history",
       name: "history",
-      component: History
+      component: History,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: "/",
@@ -48,15 +61,23 @@ export default new Router({
     },
 
     {
-      path: "/secure",
-      name: "secure",
-      component: Search
-    },
-
-    {
       path: "*",
       name: "404",
       component: NotFoundComponent
     }
   ]
 });
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (store.getters.isLoggedIn) {
+      next();
+      return;
+    }
+    next("/login");
+  } else {
+    next();
+  }
+});
+
+export default router;

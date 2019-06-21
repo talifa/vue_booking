@@ -1,55 +1,69 @@
-import data from "../data/users.json";
+import axios from "axios";
+
 const state = {
-  todos: null
+  status: "",
+  token: localStorage.getItem("token") || "",
+  user: ""
 };
 
 const getters = {
-  TODOS: state => {
-    return state.todos;
-  }
+  isLoggedIn: state => !!state.token,
+  authStatus: state => state.status,
+  userName: state => state.user
 };
 
 const mutations = {
-  SET_TODO: (state, payload) => {
-    state.todos = payload;
+  auth_request(state) {
+    state.status = "loading";
+    console.log(state);
   },
-
-  ADD_TODO: (state, payload) => {
-    state.todos.push(payload);
+  auth_success(state, token, user) {
+    state.status = "success";
+    state.token = token;
+    state.user = user;
+    console.log("auth_success", user);
+  },
+  auth_error(state) {
+    state.status = "error";
+    console.log(state);
+  },
+  logout(state) {
+    state.status = "";
+    state.token = "";
   }
 };
 
 const actions = {
-  GET_TODO: async (context, payload) => {
-    // let { data } = users;
-    context.commit("SET_TODO", data);
-  },
-
-  SAVE_TODO: async (context, payload) => {
-    // let { data } = users;
-    context.commit("ADD_TODO", payload);
-  },
-  login({ commit }, user) {
-    return new Promise((resolve, reject) => {
+  login: async ({ commit }, user) => {
+    try {
       commit("auth_request");
-      this.$http({
-        url: "http://localhost:3000/login",
-        data: user,
-        method: "POST"
-      })
-        .then(resp => {
-          const token = resp.data.token;
-          const user = resp.data.user;
-          localStorage.setItem("token", token);
-          this.$http.defaults.headers.common["Authorization"] = token;
-          commit("auth_success", token, user);
-          resolve(resp);
-        })
-        .catch(err => {
-          commit("auth_error");
-          localStorage.removeItem("token");
-          reject(err);
-        });
+      const resp = await axios({
+        url: "/users.json",
+        method: "GET"
+      });
+      const authData = resp.data.find(item => {
+        return item.email === user.email && item.password === user.password;
+      });
+      if (authData) {
+        const token = authData.token;
+        const name = authData.name;
+        localStorage.setItem("token", token);
+        axios.defaults.headers.common["Authorization"] = token;
+        console.log("hi ", name);
+        commit("auth_success", token, name);
+      }
+    } catch (err) {
+      commit("auth_error");
+      localStorage.removeItem("token");
+      console.log(err);
+    }
+  },
+  logout({ commit }) {
+    return new Promise((resolve, reject) => {
+      commit("logout");
+      localStorage.removeItem("token");
+      delete axios.defaults.headers.common["Authorization"];
+      resolve();
     });
   }
 };

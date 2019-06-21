@@ -3,8 +3,13 @@
     Header
     //- router-link(:to="{ name: 'search' }").link Home page
     //- router-link(:to="{ name: 'login' }").link Login
-    router-link(:to="{ name: 'login' }" v-if="isLoggedIn" v-on:click.native="logout()" replace).link.logout Log out
-    router-view(@authenticated="setAuthenticated")
+
+    //- router-link(:to="{ name: 'login' }" v-if="isLoggedIn" v-on:click.native="logout()" replace).link.logout Log out
+    span(v-if="isLoggedIn") Hi, {{ userName }} 
+    span(v-if="isLoggedIn").logout 
+      a( v-on:click="logout") Logout 
+
+    router-view
     
     //- router-view
 
@@ -15,6 +20,8 @@
 import LoginPage from "./views/LoginPage";
 import HomePage from "./views/HomePage";
 import Header from "./components/Header";
+import { mapGetters } from "vuex";
+
 import "vue-select/dist/vue-select.css";
 export default {
   name: "App",
@@ -25,27 +32,25 @@ export default {
   },
   data() {
     return {
-      authenticated: false,
-      mockAccount: {
-        email: "n",
-        password: "111"
-      }
+      // authenticated: false,
+      // mockAccount: {
+      //   email: "n",
+      //   password: "111"
+      // }
     };
   },
   mounted() {
-    if (!this.authenticated) {
-      this.$router.replace({ name: "login" });
-    }
+    // if (!this.authenticated) {
+    //   this.$router.replace({ name: "login" });
+    // }
   },
   computed: {
-    isLoggedIn: function() {
-      return this.$store.getters.isLoggedIn;
-    }
+    ...mapGetters(["authStatus", "isLoggedIn", "userName"])
   },
   methods: {
-    setAuthenticated(status) {
-      this.authenticated = status;
-    },
+    // setAuthenticated(status) {
+    //   this.authenticated = status;
+    // },
     logout() {
       this.$store.dispatch("logout").then(() => {
         this.$router.push("/login");
@@ -112,6 +117,7 @@ h1 {
   position: absolute;
   right: 15px;
   top: 15px;
+  cursor: pointer;
 
   &:hover {
     text-decoration: underline;

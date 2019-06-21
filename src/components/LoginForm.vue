@@ -16,12 +16,12 @@
       
 
       button.btn(type="submit") Submit
-      div(v-for="item in TODOS") {{item.name}}
+      
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import { mapActions } from "vuex";
+// import { mapGetters } from "vuex";
+// import { mapActions } from "vuex";
 
 export default {
   name: "LoginForm",
@@ -33,24 +33,24 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["TODOS"])
+    // ...mapGetters(["authStatus", "userName"])
     // Другие вычисляемые свойства
   },
 
   methods: {
-    ...mapActions(["GET_TODO"]),
+    // ...mapActions([""]),
 
     login() {
       let email = this.email;
       let password = this.password;
       this.$store
         .dispatch("login", { email, password })
-        .then(() => this.$router.push("/404"))
-        .catch(err => console.log(err));
+        .then(() => this.$router.push("search"))
+        .catch(err => console.log("login", err));
     }
   },
   mounted() {
-    this.GET_TODO();
+    // this.GET_TODO();
   }
 };
 </script>
