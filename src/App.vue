@@ -5,7 +5,7 @@
     //- router-link(:to="{ name: 'login' }").link Login
 
     //- router-link(:to="{ name: 'login' }" v-if="isLoggedIn" v-on:click.native="logout()" replace).link.logout Log out
-    span(v-if="isLoggedIn") Hi, {{ userName }} 
+    span(v-if="userName").username Hi, {{ userName }} 
     span(v-if="isLoggedIn").logout 
       a( v-on:click="logout") Logout 
 
@@ -118,10 +118,21 @@ h1 {
   right: 15px;
   top: 15px;
   cursor: pointer;
+  display: block;
+  padding: 10px;
+  border: 1px solid #ccc;
 
   &:hover {
-    text-decoration: underline;
+    // text-decoration: underline;
+    background-color: #eee;
   }
+}
+
+.username {
+  position: absolute;
+  right: 5px;
+  top: 75px;
+  font-weight: bold;
 }
 
 #Search {

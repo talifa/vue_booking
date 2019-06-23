@@ -3,13 +3,13 @@ import axios from "axios";
 const state = {
   status: "",
   token: localStorage.getItem("token") || "",
-  user: ""
+  name: ""
 };
 
 const getters = {
   isLoggedIn: state => !!state.token,
   authStatus: state => state.status,
-  userName: state => state.user
+  userName: state => state.name
 };
 
 const mutations = {
@@ -17,11 +17,11 @@ const mutations = {
     state.status = "loading";
     console.log(state);
   },
-  auth_success(state, token, user) {
+  auth_success(state, data) {
     state.status = "success";
-    state.token = token;
-    state.user = user;
-    console.log("auth_success", user);
+    state.token = data.token;
+    state.name = data.name;
+    console.log(state);
   },
   auth_error(state) {
     state.status = "error";
@@ -39,29 +39,36 @@ const actions = {
       commit("auth_request");
       const resp = await axios({
         url: "/users.json",
+        data: user,
         method: "GET"
       });
       const authData = resp.data.find(item => {
         return item.email === user.email && item.password === user.password;
       });
       if (authData) {
-        const token = authData.token;
-        const name = authData.name;
-        localStorage.setItem("token", token);
-        axios.defaults.headers.common["Authorization"] = token;
-        console.log("hi ", name);
-        commit("auth_success", token, name);
+        // const token = authData.token;
+        // const name = authData.name;
+        localStorage.setItem("token", authData.token);
+        localStorage.setItem("name", authData.name);
+        axios.defaults.headers.common["Authorization"] = authData.token;
+        // console.log("hi ", name);
+        commit("auth_success", authData);
+      }
+      if (!authData) {
+        commit("auth_error");
+        localStorage.removeItem("token");
       }
     } catch (err) {
       commit("auth_error");
       localStorage.removeItem("token");
-      console.log(err);
+      // console.log(err);
     }
   },
   logout({ commit }) {
     return new Promise((resolve, reject) => {
       commit("logout");
       localStorage.removeItem("token");
+      localStorage.removeItem("name");
       delete axios.defaults.headers.common["Authorization"];
       resolve();
     });
