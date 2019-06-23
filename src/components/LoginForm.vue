@@ -11,8 +11,8 @@
       div.form-group
           input#password.form-control(type='password',v-model='password')
           label(for='password', v-bind:class="{ filled: password != '' }") Password 
-      p.errors(v-if="errors.length")
-        b(v-for="error in errors") {{ error }}
+      p.errors(v-if="authStatus  == 'error'")
+        b Incorrect password or email
       
 
       button.btn(type="submit") Submit
@@ -20,7 +20,7 @@
 </template>
 
 <script>
-// import { mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 // import { mapActions } from "vuex";
 
 export default {
@@ -33,7 +33,7 @@ export default {
     };
   },
   computed: {
-    // ...mapGetters(["authStatus", "userName"])
+    ...mapGetters(["authStatus", "userName"])
     // Другие вычисляемые свойства
   },
 

@@ -57,10 +57,12 @@ const actions = {
       if (!authData) {
         commit("auth_error");
         localStorage.removeItem("token");
+        localStorage.removeItem("name");
       }
     } catch (err) {
       commit("auth_error");
       localStorage.removeItem("token");
+      localStorage.removeItem("name");
       // console.log(err);
     }
   },
