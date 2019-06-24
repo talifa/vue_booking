@@ -5,7 +5,7 @@
     //- router-link(:to="{ name: 'login' }").link Login
 
     //- router-link(:to="{ name: 'login' }" v-if="isLoggedIn" v-on:click.native="logout()" replace).link.logout Log out
-    span(v-if="isLoggedIn").username Hi, {{ userName }} 
+    span(v-if="userName").username Hi, {{ userName }} 
     span(v-if="isLoggedIn").logout 
       a( v-on:click="logout") Logout 
 

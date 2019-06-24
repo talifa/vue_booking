@@ -2,12 +2,14 @@ import Vue from "vue";
 import Router from "vue-router";
 import { store } from "../store";
 import LoginPage from "../views/LoginPage";
-import HomePage from "../views/HomePage";
+// import HomePage from "../views/HomePage";
 import Search from "../components/Menu/Search";
 import Manage from "../components/Menu/Manage";
 import Status from "../components/Menu/Status";
 import History from "../components/Menu/History";
 import NotFoundComponent from "../components/NotFoundComponent";
+import Outbound from "../components/Menu/Result/Outbound";
+import Inbound from "../components/Menu/Result/Inbound";
 
 Vue.use(Router);
 
@@ -18,7 +20,10 @@ let router = new Router({
     {
       path: "/login",
       name: "login",
-      component: LoginPage
+      component: LoginPage,
+      meta: {
+        requiresAuth: false
+      }
     },
     {
       path: "/search",
@@ -27,7 +32,18 @@ let router = new Router({
       alias: ["/home"],
       meta: {
         requiresAuth: true
-      }
+      },
+      children: []
+    },
+    {
+      path: "/outbound",
+      name: "outbound",
+      component: Outbound
+    },
+    {
+      path: "/inbound",
+      name: "inbound",
+      component: Inbound
     },
     {
       path: "/manage",
@@ -56,7 +72,7 @@ let router = new Router({
     {
       path: "/",
       redirect: {
-        name: "login"
+        name: "search"
       }
     },
 

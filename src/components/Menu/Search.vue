@@ -57,7 +57,7 @@ import Header from "../Header";
 import Menu from "../Menu";
 import Datepicker from "vuejs-datepicker";
 import vSelect from "vue-select";
-import "vue-select/dist/vue-select.css";
+import Outbound from "./Result/Outbound";
 
 export default {
   name: "Search",
@@ -65,13 +65,19 @@ export default {
     Header,
     Menu,
     Datepicker,
-    vSelect
+    vSelect,
+    Outbound
   },
   data: () => ({
     errors: {},
-    format: "dd/MM",
+    flight: {},
+    departing: null,
+    returning: null,
+    passengers: null,
     from_country: null,
     to_country: null,
+    format: "dd/MM",
+
     from: [
       { full: "Petersburg", short: "PTB" },
       { full: "Petersburg", short: "PTB" },
@@ -87,9 +93,7 @@ export default {
       { full: "Petersburg", short: "PTB" },
       { full: "Petersburg", short: "PTB" }
     ],
-    departing: null,
-    returning: null,
-    passengers: null,
+
     disabledDates: {
       to: new Date() // Disable all dates up to specific date
     },
@@ -101,6 +105,19 @@ export default {
     ]
   }),
   methods: {
+    search() {
+      this.flight = {
+        departing: this.departing,
+        returning: this.returning,
+        passengers: this.passengers,
+        from_country: this.from_country,
+        to_country: this.to_country
+      };
+      this.$store
+        .dispatch("search", this.flight)
+        .then(() => this.$router.push("outbound"))
+        .catch(err => console.log("outbound", err));
+    },
     switcher: function(event) {
       this.buffer = this.from_country;
       this.from_country = this.to_country;
@@ -120,7 +137,7 @@ export default {
     },
     checkForm: function(e) {
       if (this.from && this.departing && this.passengers) {
-        this.$router.push("no");
+        this.search();
         return true;
       }
 
