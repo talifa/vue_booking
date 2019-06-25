@@ -128,6 +128,11 @@ h1 {
   }
 }
 
+.VueCarousel-navigation-button {
+  font-size: 20px;
+  font-weight: 700;
+}
+
 .username {
   position: absolute;
   right: 5px;

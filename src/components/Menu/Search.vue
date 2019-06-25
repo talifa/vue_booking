@@ -13,7 +13,7 @@
             a.switcher(v-on:click="switcher")
               
               
-            div.form-group
+            div.form-group(v-bind:class="{ error_br: errors.to }")
                 label(for='to', ) To
                 v-select#to.form-control(type='text', spellcheck="false", :options="to", label='short',  v-model='to_country')
                   template(slot="to_option" slot-scope="to_option")
@@ -115,13 +115,14 @@ export default {
       };
       this.$store
         .dispatch("search", this.flight)
-        .then(() => this.$router.push("outbound"))
-        .catch(err => console.log("outbound", err));
+        .then(() => this.$router.push("result"))
+        .catch(err => console.log("result", err));
     },
     switcher: function(event) {
       this.buffer = this.from_country;
       this.from_country = this.to_country;
       this.to_country = this.buffer;
+      console.log(this.from);
     },
     customFormatter(date) {
       let date_new;
@@ -136,16 +137,25 @@ export default {
       return date_new;
     },
     checkForm: function(e) {
-      if (this.from && this.departing && this.passengers) {
+      if (
+        this.from_country &&
+        this.to_country &&
+        this.departing &&
+        this.passengers
+      ) {
         this.search();
         return true;
       }
 
       this.errors = [];
 
-      if (!this.from) {
+      if (!this.from_country) {
         // this.errors.push("From");
         this.errors.from = true;
+      }
+      if (!this.to_country) {
+        // this.errors.push("From");
+        this.errors.to = true;
       }
       if (!this.departing) {
         // this.errors.push("Departing");

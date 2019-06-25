@@ -1,7 +1,13 @@
 // import axios from "axios";
 
 const state = {
-  flight: {}
+  flight: {
+    // departing: "10/01",
+    // returning: "10/02",
+    // passengers: "1",
+    // from_country: "City",
+    // to_country: "City"
+  }
 };
 
 const getters = {
@@ -12,6 +18,8 @@ const mutations = {};
 
 const actions = {
   search({ commit }, data) {
+    // state.flight = {};
+
     state.flight = data;
   }
 };

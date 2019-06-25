@@ -1,6 +1,5 @@
 <template lang="pug">
   #Inbound
-    SubMenu
     .container 
       
 

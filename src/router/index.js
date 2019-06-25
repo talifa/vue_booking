@@ -9,6 +9,7 @@ import Status from "../components/Menu/Status";
 import History from "../components/Menu/History";
 import NotFoundComponent from "../components/NotFoundComponent";
 import Outbound from "../components/Menu/Result/Outbound";
+import Result from "../components/Menu/Result/Result";
 import Inbound from "../components/Menu/Result/Inbound";
 
 Vue.use(Router);
@@ -44,6 +45,11 @@ let router = new Router({
       path: "/inbound",
       name: "inbound",
       component: Inbound
+    },
+    {
+      path: "/result",
+      name: "result",
+      component: Result
     },
     {
       path: "/manage",
