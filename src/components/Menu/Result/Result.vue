@@ -3,10 +3,14 @@
     .container
       #dynamic-component-demo.demo
         div(v-for='tab in tabs', v-bind:key='tab', v-bind:class="['link', { active: currentTab === tab }]", v-on:click='currentTab = tab') {{ tab }}
-        .search-header
+        .search-header(v-if="currentTabComponent === 'outbound'")
           div {{flightData.from_country ? flightData.from_country.full: ""}}
           div.arrow
           div {{flightData.to_country ? flightData.to_country.full : "" }}
+        .search-header(v-else-if="currentTabComponent === 'inbound'")
+          div {{flightData.to_country ? flightData.to_country.full: ""}}
+          div.arrow
+          div {{flightData.from_country ? flightData.from_country.full : "" }}
           //- div.flights-length ({{flights.length}} options)
         carousel.date-slider(:perPage='1', :navigationEnabled="true", :paginationEnabled="false", :navigationNextLabel="'>'", :navigationPrevLabel="'<'")
           img 
@@ -77,6 +81,7 @@ export default {
 }
 
 .link {
+  cursor: pointer;
   text-align: center;
   color: #313131;
   opacity: 0.2;
