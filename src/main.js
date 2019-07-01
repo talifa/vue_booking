@@ -4,7 +4,11 @@ import router from "./router";
 import { store } from "./store";
 import Axios from "axios";
 import VueCarousel from "vue-carousel";
+import Menu from "./components/Menu";
+
 Vue.use(VueCarousel);
+
+Vue.component("menu-nav", Menu);
 Vue.config.productionTip = false;
 Vue.prototype.$http = Axios;
 const token = localStorage.getItem("token");

@@ -37,16 +37,28 @@
                 .when {{flight.when_to}}
             .flight-details
               .model
-                img(src="http://simpleicon.com/wp-content/uploads/rocket.png" height='18px') 
+                img(src="~@/assets/img/plane.png" height='18px') 
                 .model-info
                   .from {{flight.plane_from}}
                   .to {{flight.plane_to}}
               .price
-                .price-info From INR:
+                .price-info From INR: 
                   span.price-number  {{flight.price}}
                 .price-status(v-if="index == 0") Lowest price
-            .more
-    
+            .more( @click="(e) => e.target.classList.toggle('is_collapsed')") 
+              button.arrow-more
+                svg(xmlns='http://www.w3.org/2000/svg' width='11' height='9' viewbox='0 0 11 9').arrow-icon
+                  g
+                    g
+                      g
+                        path(fill='none' stroke='#707070' stroke-linecap='round' stroke-linejoin='round' stroke-miterlimit='50' stroke-width='1.5' d='M9.345 1.235v0l-4.01 3.918v0L1.5 1.235v0')
+                      g
+                        path(fill='none' stroke='#707070' stroke-linecap='round' stroke-miterlimit='50' stroke-width='1.5' d='M1.5 7.74h7.994')
+          div.flight-tariff
+          
+
+
+                    
 </template>
 
 <script>
@@ -72,7 +84,7 @@ export default {
         when_to: "07:07",
         plane_from: "B777",
         plane_to: "EK523",
-        plane_icon: "http://simpleicon.com/wp-content/uploads/rocket.png",
+        plane_icon: "~@/assets/img/plane.png",
         price: "22,677"
       },
       {
@@ -84,7 +96,7 @@ export default {
         when_to: "07:07",
         plane_from: "B777",
         plane_to: "EK523",
-        plane_icon: "http://simpleicon.com/wp-content/uploads/rocket.png",
+        plane_icon: "~@/assets/img/plane.png",
         price: "22,677"
       },
       {
@@ -96,10 +108,11 @@ export default {
         when_to: "07:07",
         plane_from: "B777",
         plane_to: "EK523",
-        plane_icon: "http://simpleicon.com/wp-content/uploads/rocket.png",
+        plane_icon: "~@/assets/img/plane.png",
         price: "22,677"
       }
-    ]
+    ],
+    isCollapsed: false
   }),
   computed: {
     ...mapGetters(["flightData"])
@@ -118,6 +131,9 @@ export default {
       }
 
       return date_new;
+    },
+    collapsedToggle() {
+      this.isCollapsed = !this.isCollapsed;
     }
   },
   created: function() {
@@ -161,7 +177,7 @@ export default {
       .flight-data {
         display: flex;
         justify-content: space-between;
-        padding: 30px 0;
+        padding: 10px 0;
 
         .delay {
           font-size: 14px;
@@ -172,7 +188,7 @@ export default {
       .flight-details {
         display: flex;
         justify-content: space-between;
-        padding: 30px 0;
+        padding: 3px 0;
         align-items: flex-end;
 
         .model {
@@ -200,6 +216,40 @@ export default {
             font-size: 14px;
             float: right;
           }
+        }
+      }
+
+      .more {
+        display: flex;
+        justify-content: center;
+        z-index: 1000;
+
+        .arrow-more {
+          cursor: pointer;
+          background-color: transparent;
+          // background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='9' viewBox='0 0 11 9'%3E%3Cg%3E%3Cg%3E%3Cg%3E%3Cpath fill='none' stroke='%23707070' stroke-linecap='round' stroke-linejoin='round' stroke-miterlimit='50' stroke-width='1.5' d='M9.345 1.235v0l-4.01 3.918v0L1.5 1.235v0'/%3E%3C/g%3E%3Cg%3E%3Cpath fill='none' stroke='%23707070' stroke-linecap='round' stroke-miterlimit='50' stroke-width='1.5' d='M1.5 7.74h7.994'/%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+          // background-repeat: no-repeat;
+          // background-position: 50%;
+          // height: 10px;
+          border: none;
+          outline: none;
+          width: 100%;
+        }
+
+        .arrow-icon {
+          transition: transform 0.2s ease;
+          z-index: -2000;
+        }
+
+        .is_collapsed > .arrow-icon {
+          transform: rotate(180deg);
+        }
+
+        // .is_collapsed > .arrow-icon ~ .arrow-icon {
+        // transform: rotate(0deg);
+        // }
+        .arrow-more.is_collapsed {
+          // background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='9' viewBox='0 0 11 9'%3E%3Cg%3E%3Cg%3E%3Cg%3E%3Cpath fill='none' stroke='%23707070' stroke-linecap='round' stroke-linejoin='round' stroke-miterlimit='50' stroke-width='1.5' d='M1.649 7.74v0l4.01-3.918v0L9.495 7.74v0'/%3E%3C/g%3E%3Cg%3E%3Cpath fill='none' stroke='%23707070' stroke-linecap='round' stroke-miterlimit='50' stroke-width='1.5' d='M9.494 1.235H1.5'/%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
         }
       }
     }

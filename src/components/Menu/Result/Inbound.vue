@@ -37,7 +37,7 @@
                 .when {{flight.when_to}}
             .flight-details
               .model
-                img(src="http://simpleicon.com/wp-content/uploads/rocket.png" height='18px') 
+                img(src="~@/assets/img/plane.png" height='18px') 
                 .model-info
                   .from {{flight.plane_from}}
                   .to {{flight.plane_to}}

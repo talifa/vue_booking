@@ -5,7 +5,7 @@
     //- router-link(:to="{ name: 'login' }").link Login
 
     //- router-link(:to="{ name: 'login' }" v-if="isLoggedIn" v-on:click.native="logout()" replace).link.logout Log out
-    span(v-if="userName").username Hi, {{ userName }} 
+    //- span(v-if="userName").username Hi, {{ userName }} 
     span(v-if="isLoggedIn").logout 
       a( v-on:click="logout") Logout 
 
@@ -67,21 +67,21 @@ export default {
   font-family: 'Helvetica Neue Light';
   font-style: normal;
   font-weight: normal;
-  src: local('Helvetica Neue Light'), url('./assets/fonts/HelveticaNeueLight.woff') format('woff');
+  src: local('Helvetica Neue Light'), url('~@/assets/fonts/HelveticaNeueLight.woff') format('woff');
 }
 
 @font-face {
   font-family: 'Helvetica Neue Medium';
   font-style: normal;
   font-weight: normal;
-  src: local('Helvetica Neue Medium'), url('./assets/fonts/HelveticaNeueMedium.woff') format('woff');
+  src: local('Helvetica Neue Medium'), url('~@/assets/fonts/HelveticaNeueMedium.woff') format('woff');
 }
 
 @font-face {
   font-family: 'Helvetica Neue Bold';
   font-style: normal;
   font-weight: normal;
-  src: local('Helvetica Neue Bold'), url('./assets/fonts/HelveticaNeueBold.woff') format('woff');
+  src: local('Helvetica Neue Bold'), url('~@/assets/fonts/HelveticaNeueBold.woff') format('woff');
 }
 
 *, *::before, *::after {
@@ -89,7 +89,7 @@ export default {
 }
 
 html * {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Helvetica Neue Medium', 'Roboto', sans-serif;
 }
 
 *::placeholder {

@@ -7,13 +7,11 @@
 
 <script>
 import Header from "../Header";
-import Menu from "../Menu";
 
 export default {
   name: "History",
   components: {
-    Header,
-    Menu
+    Header
   }
 };
 </script>
