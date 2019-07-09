@@ -25,7 +25,6 @@
 </template>
 
 <script>
-import Header from "../../Header";
 import Outbound from "./Outbound";
 import Inbound from "./Inbound";
 import { mapGetters } from "vuex";
@@ -33,7 +32,6 @@ import { mapGetters } from "vuex";
 export default {
   name: "Result",
   components: {
-    Header,
     Outbound,
     Inbound
   },

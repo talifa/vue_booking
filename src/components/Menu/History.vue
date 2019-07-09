@@ -6,12 +6,10 @@
 </template>
 
 <script>
-import Header from "../Header";
 
 export default {
   name: "History",
   components: {
-    Header
   }
 };
 </script>

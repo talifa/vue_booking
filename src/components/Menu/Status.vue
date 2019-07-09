@@ -6,14 +6,12 @@
 </template>
 
 <script>
-import Header from "../Header";
-import Menu from "../Menu";
+
 
 export default {
   name: "Status",
   components: {
-    Header,
-    Menu
+
   }
 };
 </script>

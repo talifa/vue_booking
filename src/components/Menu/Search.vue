@@ -53,20 +53,12 @@
 </template>
 
 <script>
-import Header from "../Header";
-import Menu from "../Menu";
-import Datepicker from "vuejs-datepicker";
-import vSelect from "vue-select";
-import Outbound from "./Result/Outbound";
+
 
 export default {
   name: "Search",
   components: {
-    Header,
-    Menu,
-    Datepicker,
-    vSelect,
-    Outbound
+  
   },
   data: () => ({
     errors: {},

@@ -7,14 +7,12 @@
 </template>
 
 <script>
-import Header from "./Header";
-import Menu from "./Menu";
+
 
 export default {
   name: "NotFoundComponent",
   components: {
-    Header,
-    Menu
+
   }
 };
 </script>

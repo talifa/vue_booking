@@ -17,18 +17,12 @@
 </template>
 
 <script>
-import LoginPage from "./views/LoginPage";
-import HomePage from "./views/HomePage";
-import Header from "./components/Header";
 import { mapGetters } from "vuex";
 
 import "vue-select/dist/vue-select.css";
 export default {
   name: "App",
   components: {
-    LoginPage,
-    HomePage,
-    Header
   },
   data() {
     return {
