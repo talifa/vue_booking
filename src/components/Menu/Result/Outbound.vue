@@ -1,11 +1,11 @@
 <template lang="pug">
-  #Outbound
-    .container
-      Flight(:flights='getFlights', :tariffdata="tariffdata")             
+  #Outbound 
+    .container 
+      Flight(:flights='flightss', :tariffdata="tariffdata")             
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapState } from "vuex";
 import Tariff from "./Tariff";
 import Flight from "./Flight";
 
@@ -95,7 +95,8 @@ export default {
     ]
   }),
   computed: {
-    ...mapGetters(["flightData", "getFlights"])
+    ...mapGetters(["getFlights"]),
+    ...mapState(["flights"])
   },
   methods: {
     ...mapActions(["fetchFlights"])

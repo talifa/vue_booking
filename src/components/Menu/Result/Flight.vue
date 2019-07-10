@@ -69,7 +69,7 @@ export default {
     ...mapActions(["SetShowVar"]),
 
     toggleShow(idx) {
-      // this.flights[idx].isShow = !this.flights[idx].isShow;
+      this.flights[idx].isShow = !this.flights[idx].isShow;
       this.SetShowVar(idx);
       // this.flights.forEach(function(item, i) {
       //   item.isShow = !item.isShow;

@@ -13,7 +13,7 @@ const getters = {
 const mutations = {
   setFlights(state, payload) {
     state.flights = payload;
-    console.log(payload);
+    console.log("ggg", payload);
   },
   SetShowVar(state, payload) {
     state.flights[payload].isShow = !state.flights[payload].isShow;
@@ -22,17 +22,17 @@ const mutations = {
 
 const actions = {
   fetchFlights: async ({ commit }, data) => {
-    try {
-      const resp = await Axios({
-        url: "http://5d25e031d924540014931b09.mockapi.io/flights",
-        method: "GET"
-      });
+    const result = Axios({
+      method: "GET",
+      url: "https://5d25e031d924540014931b09.mockapi.io/flights"
+    }).then(result => {
+      commit("setFlights", result);
 
-      commit("setFlights", resp);
-    } catch (err) {
-      console.log(err);
-    }
+      console.log(result);
+    });
+    console.log("err");
   },
+
   SetShowVar: async (context, idx) => {
     console.log(idx);
     context.commit("SetShowVar", idx);
@@ -41,7 +41,7 @@ const actions = {
   //   console.log("err");
 
   //   let { data } = await Axios.get(
-  //     "http://5d25e031d924540014931b09.mockapi.io/flights"
+  //     "https://5d25e031d924540014931b09.mockapi.io/flights"
   //   );
   //   context.commit("setFlights", data);
   // }

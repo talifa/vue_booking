@@ -53,13 +53,9 @@
 </template>
 
 <script>
-
-
 export default {
   name: "Search",
-  components: {
-  
-  },
+  components: {},
   data: () => ({
     errors: {},
     flight: {},
