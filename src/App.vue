@@ -22,8 +22,7 @@ import { mapGetters } from "vuex";
 import "vue-select/dist/vue-select.css";
 export default {
   name: "App",
-  components: {
-  },
+  components: {},
   data() {
     return {
       // authenticated: false,
@@ -218,6 +217,17 @@ h1 {
 
 .router-link-active {
   color: green;
+}
+
+.VueCarousel-navigation-button {
+  outline: none;
+  font-size: 20px;
+  font-weight: 700;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  border-radius: 50%;
+  padding: 5px 11px !important;
+  vertical-align: middle;
+  text-align: center;
 }
 
 .btn {

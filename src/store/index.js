@@ -1,7 +1,9 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import Axios from "axios";
 import auth from "../modules/auth";
 import search from "../modules/search";
+import flights from "../modules/flights";
 
 Vue.use(Vuex);
 
@@ -12,6 +14,7 @@ export const store = new Vuex.Store({
   actions: {},
   modules: {
     auth,
-    search
+    search,
+    flights
   }
 });

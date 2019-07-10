@@ -1,11 +1,11 @@
 <template lang="pug">
   #Outbound
     .container
-      Flight(:flights='flights', :tariffdata="tariffdata")             
+      Flight(:flights='getFlights', :tariffdata="tariffdata")             
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import Tariff from "./Tariff";
 import Flight from "./Flight";
 
@@ -14,7 +14,7 @@ export default {
   components: { Tariff, Flight },
 
   data: () => ({
-    flights: [
+    flightss: [
       {
         isShow: false,
         from: "TRV",
@@ -95,10 +95,15 @@ export default {
     ]
   }),
   computed: {
-    ...mapGetters(["flightData"])
+    ...mapGetters(["flightData", "getFlights"])
   },
-  methods: {},
-  created: function() {}
+  methods: {
+    ...mapActions(["fetchFlights"])
+  },
+  created() {},
+  mounted() {
+    this.fetchFlights();
+  }
 };
 </script>
 

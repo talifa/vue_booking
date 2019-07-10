@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions } from "vuex";
 import Tariff from "./Tariff";
 
 export default {
@@ -64,13 +64,13 @@ export default {
   data: () => ({
     isCollapsed: false
   }),
-  computed: {
-    ...mapGetters(["flightData"])
-  },
+  computed: {},
   methods: {
-    toggleShow(idx) {
-      this.flights[idx].isShow = !this.flights[idx].isShow;
+    ...mapActions(["SetShowVar"]),
 
+    toggleShow(idx) {
+      // this.flights[idx].isShow = !this.flights[idx].isShow;
+      this.SetShowVar(idx);
       // this.flights.forEach(function(item, i) {
       //   item.isShow = !item.isShow;
       // });
