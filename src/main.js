@@ -24,6 +24,8 @@ Vue.prototype.$http = Axios;
 const token = localStorage.getItem("token");
 if (token) {
   Vue.prototype.$http.defaults.headers.common["Authorization"] = token;
+  Vue.prototype.$http.defaults.headers.common = {};
+  Vue.prototype.$http.defaults.headers.common["Accept"] = "application/json";
 }
 new Vue({
   router,

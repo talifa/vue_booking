@@ -1,7 +1,7 @@
 <template lang="pug">
   #Outbound 
     .container 
-      Flight(:flights='flightss', :tariffdata="tariffdata")             
+      Flight(:flights='getFlights', :tariffdata="tariffdata")             
 </template>
 
 <script>

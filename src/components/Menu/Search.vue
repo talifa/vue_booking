@@ -6,7 +6,7 @@
           .fieldset
             div.form-group(v-bind:class="{ error_br: errors.from }")
                 label(for='from', ) From 
-                v-select#from.form-control(type='text', spellcheck="false", :options="from", label='short',    v-model='from_country')
+                v-select#from.form-control(type='text', spellcheck="false", :options="getCityListFrom", label='short',    v-model='from_country')
                   template(slot="from_option" slot-scope="from_option")
                     span {{ from_option.full }}
                 span.bottom_text {{ from_country ? from_country.full : ''}}
@@ -15,7 +15,7 @@
               
             div.form-group(v-bind:class="{ error_br: errors.to }")
                 label(for='to', ) To
-                v-select#to.form-control(type='text', spellcheck="false", :options="to", label='short',  v-model='to_country')
+                v-select#to.form-control(type='text', spellcheck="false", :options="getCityListTo", label='short',  v-model='to_country')
                   template(slot="to_option" slot-scope="to_option")
                     span {{ to_option.full }}
                 span.bottom_text {{ to_country ? to_country.full : ''}}
@@ -53,6 +53,8 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
+
 export default {
   name: "Search",
   components: {},
@@ -93,6 +95,7 @@ export default {
     ]
   }),
   methods: {
+    ...mapActions(["fetchCityList"]),
     search() {
       this.flight = {
         departing: this.departing,
@@ -110,7 +113,6 @@ export default {
       this.buffer = this.from_country;
       this.from_country = this.to_country;
       this.to_country = this.buffer;
-      console.log(this.from);
     },
     customFormatter(date) {
       let date_new;
@@ -155,6 +157,12 @@ export default {
       }
       e.preventDefault();
     }
+  },
+  computed: {
+    ...mapGetters(["getCityListFrom", 'getCityListTo']),
+  },
+  mounted() {
+    this.fetchCityList();
   }
 };
 </script>

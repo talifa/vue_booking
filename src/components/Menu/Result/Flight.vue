@@ -6,8 +6,8 @@
           .flight-top
             .flight-data
               .from 
-                .airport {{flight.from}}
-                .when {{flight.when_from}}
+                .airport {{flightData.from_country.short}}
+                .when {{customFormatter(flightData.departing)}}
               .delay
                 .long {{flight.long}}
                 svg(xmlns='http://www.w3.org/2000/svg' width='200' height='15' viewbox='0 0 200 15')
@@ -22,8 +22,8 @@
 
                 .transfer {{flight.transfer}}
               .to
-                .airport {{flight.to}}
-                .when {{flight.when_to}}
+                .airport {{flightData.to_country.short}}
+                .when  {{customFormatter(flightData.returning)}}
             .flight-details
               .model
                 img(src="~@/assets/img/plane.png" height='18px') 
@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import Tariff from "./Tariff";
 
 export default {
@@ -64,25 +64,22 @@ export default {
   data: () => ({
     isCollapsed: false
   }),
-  computed: {},
+  computed: {
+    ...mapGetters(["flightData"])
+  },
   methods: {
     ...mapActions(["SetShowVar"]),
 
     toggleShow(idx) {
-      this.flights[idx].isShow = !this.flights[idx].isShow;
       this.SetShowVar(idx);
-      // this.flights.forEach(function(item, i) {
-      //   item.isShow = !item.isShow;
-      // });
     },
     customFormatter(date) {
       let date_new;
       let options = {
-        weekday: "long",
-        year: "numeric",
-        day: "numeric",
-        month: "long"
+        hour: "numeric",
+        minute: "numeric"
       };
+
       if (date) {
         date_new = date.toLocaleString("en-US", options);
       }
