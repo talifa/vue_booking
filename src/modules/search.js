@@ -30,7 +30,9 @@ const mutations = {
 
 const actions = {
   search({ commit }, data) {
-    commit("setFlightData", data);
+    if (data) {
+      commit("setFlightData", data);
+    }
   },
   fetchCityList: async ({ commit }, data) => {
     Axios({

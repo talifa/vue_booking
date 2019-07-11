@@ -9,7 +9,7 @@
                 .airport {{flightData.from_country.short}}
                 .when {{customFormatter(flightData.departing)}}
               .delay
-                .long {{flight.long}}
+                .long 04 hrs 15 mins
                 svg(xmlns='http://www.w3.org/2000/svg' width='200' height='15' viewbox='0 0 200 15')
                   g
                     g(opacity='.33')
@@ -20,7 +20,7 @@
                     g
                       path(fill='#a9a9a9' d='M195.075 7.5a2.5 2.5 0 1 1 5 0 2.5 2.5 0 0 1-5 0z')
 
-                .transfer {{flight.transfer}}
+                .transfer Non-stop
               .to
                 .airport {{flightData.to_country.short}}
                 .when  {{customFormatter(flightData.returning)}}
@@ -76,6 +76,7 @@ export default {
     customFormatter(date) {
       let date_new;
       let options = {
+        hour12: false,
         hour: "numeric",
         minute: "numeric"
       };
@@ -180,6 +181,15 @@ export default {
         display: flex;
         justify-content: space-between;
         padding: 10px 0;
+
+        .from {
+          text-align: left;
+        }
+
+        .to {
+          text-align: right;
+          
+        }
 
         .delay {
           font-size: 14px;

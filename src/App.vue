@@ -106,6 +106,10 @@ h1 {
   border: 1px solid rgba(215, 32, 39, 1) !important;
 }
 
+.bold {
+  font-weight: 500 !important;
+}
+
 .logout {
   position: absolute;
   right: 15px;

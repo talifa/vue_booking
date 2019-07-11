@@ -6,7 +6,7 @@
           .fieldset
             div.form-group(v-bind:class="{ error_br: errors.from }")
                 label(for='from', ) From 
-                v-select#from.form-control(type='text', spellcheck="false", :options="getCityListFrom", label='short',    v-model='from_country')
+                v-select#from.form-control.bold(type='text', spellcheck="false", placeholder="City", :options="getCityListFrom", label='short', v-model='from_country')
                   template(slot="from_option" slot-scope="from_option")
                     span {{ from_option.full }}
                 span.bottom_text {{ from_country ? from_country.full : ''}}
@@ -15,7 +15,7 @@
               
             div.form-group(v-bind:class="{ error_br: errors.to }")
                 label(for='to', ) To
-                v-select#to.form-control(type='text', spellcheck="false", :options="getCityListTo", label='short',  v-model='to_country')
+                v-select#to.form-control.bold(type='text', spellcheck="false", placeholder="City", :options="getCityListTo", label='short', v-model='to_country')
                   template(slot="to_option" slot-scope="to_option")
                     span {{ to_option.full }}
                 span.bottom_text {{ to_country ? to_country.full : ''}}
@@ -23,22 +23,22 @@
           .fieldset
             div.form-group(v-bind:class="{ error_br: errors.date }")
                 label(for='departing', ) departing 
-                datepicker#departing.form-control(:format="format", :disabledDates="disabledDates",   placeholder='20/01',  v-model='departing')
+                datepicker#departing.form-control.bold(:format="format", :disabledDates="disabledDates",   placeholder='20/01',  v-model='departing')
                 span.bottom_text {{customFormatter(departing)}}
             
             div.form-group
                 label(for='returning', ) returning
-                datepicker#returning.form-control(:format="format", :disabledDates="disabledDates",  placeholder='21/01',  v-model='returning')
+                datepicker#returning.form-control.bold(:format="format", :disabledDates="disabledDatesDeparting",  placeholder='21/01',  v-model='returning')
                 span.bottom_text {{customFormatter(returning)}}
 
           .fieldset
             div.form-group(v-bind:class="{ error_br: errors.pass }")
                 label(for='passengers', ) passengers 
-                input#passengers.form-control(type='number',  placeholder='0',  v-model.number='passengers')
+                input#passengers.form-control.bold(type='number',  placeholder='0',  v-model.number='passengers')
                 span.bottom_text {{passengers ? passengers : 0}} Adults
             div.form-group.--blue
                 label(for='class',) class
-                v-select#status.form-control(:options="status", label='code',    v-model='sname')
+                v-select#status.form-control(:options="status", label='code', v-model='sname').bold
                   template(slot="option" slot-scope="option")
                     span {{ option.label }}
           
@@ -68,25 +68,10 @@ export default {
     to_country: null,
     format: "dd/MM",
 
-    from: [
-      { full: "Petersburg", short: "PTB" },
-      { full: "Petersburg", short: "PTB" },
-      { full: "Petersburg", short: "PTB" },
-      { full: "Petersburg", short: "PTB" },
-      { full: "Moscow", short: "MSC" }
-    ],
-    to: [
-      { full: "Moscow", short: "MSC" },
-      { full: "Petersburg", short: "PTB" },
-      { full: "Petersburg", short: "PTB" },
-      { full: "Petersburg", short: "PTB" },
-      { full: "Petersburg", short: "PTB" },
-      { full: "Petersburg", short: "PTB" }
-    ],
-
     disabledDates: {
-      to: new Date() // Disable all dates up to specific date
+      to: new Date()
     },
+
     sname: "",
     status: [
       { label: "Business Class", code: "BC" },
@@ -106,7 +91,7 @@ export default {
       };
       this.$store
         .dispatch("search", this.flight)
-        .then(() => this.$router.push("result"))
+        .then(() => this.$router.push("outbound"))
         .catch(err => console.log("result", err));
     },
     switcher: function(event) {
@@ -159,7 +144,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getCityListFrom", 'getCityListTo']),
+    ...mapGetters(["getCityListFrom", "getCityListTo"]),
+    disabledDatesDeparting: function() {
+      return {
+        to: this.departing
+      };
+    }
   },
   mounted() {
     this.fetchCityList();

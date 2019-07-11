@@ -1,24 +1,20 @@
 <template lang="pug">
   #Result
     .container
-      #dynamic-component-demo.demo
-        div(v-for='tab in tabs', v-bind:key='tab', v-bind:class="['link', { active: currentTab === tab }]", v-on:click='currentTab = tab') {{ tab }}
-        .search-header(v-if="currentTabComponent === 'outbound'")
-          div {{flightData.from_country ? flightData.from_country.full: ""}}
-          div.arrow
-          div {{flightData.to_country ? flightData.to_country.full : "" }}
-        .search-header(v-else-if="currentTabComponent === 'inbound'")
-          div {{flightData.to_country ? flightData.to_country.full: ""}}
-          div.arrow
-          div {{flightData.from_country ? flightData.from_country.full : "" }}
-          //- div.flights-length ({{flights.length}} options)
-        carousel.date-slider(:perPage='1', :navigationEnabled="true", :paginationEnabled="false", :navigationNextLabel="'>'", :navigationPrevLabel="'<'")
-          img 
-          slide.date( v-bind:key="'Outbound'" v-on:click='currentTab = "Outbound"') 
-            span {{customFormatter(flightData.departing)}}
-          slide.date(v-if="flightData.returning" v-bind:key="'Inbound'" v-on:click='currentTab = "Inbound"') 
-            span {{customFormatter(flightData.returning)}}
-        component.tab(v-bind:is='currentTabComponent')
+      //- div(v-for='tab in tabs', v-bind:key='tab', v-bind:class="['link', { active: currentTab === tab }]", v-on:click='currentTab = tab') {{ tab }}
+      .search-header
+        div {{flightData.from_country ? flightData.from_country.full: ""}}
+        div.arrow
+        div {{flightData.to_country ? flightData.to_country.full : "" }}
+
+        //- div.flights-length ({{flights.length}} options)
+      carousel.date-slider(:perPage='1', :navigationEnabled="true", :paginationEnabled="false", :navigationNextLabel="'>'", :navigationPrevLabel="'<'" @pageChange='currentTab = "Flight"')
+        img 
+        slide.date( v-for='(date, index) in dates', v-bind:key='index' ) 
+          span {{customFormatter(date)}} 
+        //- slide.date(v-if="flightData.returning" v-bind:key="'Inbound'" v-on:click='currentTab = "Inbound"') 
+        //-   span {{customFormatter(flightData.returning)}}
+      component.tab(v-bind:is='currentTabComponent', :flights='getFlights', :tariffdata="tariffdata")
 
 
 
@@ -27,26 +23,92 @@
 <script>
 import Outbound from "./Outbound";
 import Inbound from "./Inbound";
-import { mapGetters } from "vuex";
+import Tariff from "./Tariff";
+import Flight from "./Flight";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "Result",
   components: {
     Outbound,
-    Inbound
+    Inbound,
+    Tariff,
+    Flight
   },
 
   data: () => ({
-    currentTab: "Outbound",
-    tabs: ["Outbound", "Inbound"]
+    currentTab: "Flight",
+    tabs: ["Outbound", "Inbound"],
+    tariffdata: [
+      {
+        name: "Saver",
+        Checked_Baggage: "10kg",
+        Cabin_Baggage: "1 x 7kg",
+        Regular_Seat_Selection: "At a charge",
+        Skyward_Miles: "510 Miles",
+        Upgrade_To_Business: "47,500 Miles",
+        Changes_Fees: "INR 4,000",
+        Refund_Fees: "Restricted",
+        icon: "../../assets/img/bagg.svg",
+        inr: "22,677"
+      },
+      {
+        name: "Flex",
+        Checked_Baggage: "20kg",
+        Cabin_Baggage: "1 x 7kg",
+        Regular_Seat_Selection: "At a charge",
+        Skyward_Miles: "510 Miles",
+        Upgrade_To_Business: "47,500 Miles",
+        Changes_Fees: "INR 4,000",
+        Refund_Fees: "Restricted",
+        icon: "../../assets/img/bagg.svg",
+        inr: "22,677"
+      },
+      {
+        name: "Flex Plus",
+        Checked_Baggage: "30kg",
+        Cabin_Baggage: "1 x 7kg",
+        Regular_Seat_Selection: "At a charge",
+        Skyward_Miles: "510 Miles",
+        Upgrade_To_Business: "47,500 Miles",
+        Changes_Fees: "INR 4,000",
+        Refund_Fees: "Restricted",
+        icon: "../../assets/img/bagg.svg",
+        inr: "22,677"
+      }
+    ]
   }),
   computed: {
+    ...mapGetters(["getFlights"]),
+
     currentTabComponent: function() {
       return this.currentTab.toLowerCase();
+    },
+    dates: function() {
+      return this.getDates(
+        this.flightData.departing,
+        this.flightData.returning
+      );
     },
     ...mapGetters(["flightData"])
   },
   methods: {
+    ...mapActions(["fetchFlights"]),
+
+    getDates(startDate, stopDate) {
+      Date.prototype.addDays = function(days) {
+        this.setDate(this.getDate() + days);
+        return this;
+      };
+      let dateArray = [];
+      let currentDate = startDate;
+      while (currentDate <= stopDate) {
+        dateArray.push(new Date(currentDate));
+        currentDate = currentDate.addDays(1);
+      }
+      // console.log(dateArray);
+      return dateArray;
+    },
     customFormatter(date) {
       let date_new;
       let options = {
@@ -69,6 +131,9 @@ export default {
     if (data === "{}") {
       this.$router.push("search");
     }
+  },
+  mounted() {
+    this.fetchFlights();
   }
 };
 </script>
