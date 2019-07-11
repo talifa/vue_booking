@@ -1,17 +1,12 @@
 <template lang="pug">
   #app
     Header
-    //- router-link(:to="{ name: 'search' }").link Home page
-    //- router-link(:to="{ name: 'login' }").link Login
 
-    //- router-link(:to="{ name: 'login' }" v-if="isLoggedIn" v-on:click.native="logout()" replace).link.logout Log out
-    //- span(v-if="userName").username Hi, {{ userName }} 
     span(v-if="isLoggedIn").logout 
       a( v-on:click="logout") Logout 
 
     router-view
-    
-    //- router-view
+
 
     
 </template>
@@ -24,26 +19,13 @@ export default {
   name: "App",
   components: {},
   data() {
-    return {
-      // authenticated: false,
-      // mockAccount: {
-      //   email: "n",
-      //   password: "111"
-      // }
-    };
+    return {};
   },
-  mounted() {
-    // if (!this.authenticated) {
-    //   this.$router.replace({ name: "login" });
-    // }
-  },
+  mounted() {},
   computed: {
     ...mapGetters(["authStatus", "isLoggedIn", "userName"])
   },
   methods: {
-    // setAuthenticated(status) {
-    //   this.authenticated = status;
-    // },
     logout() {
       this.$store.dispatch("logout").then(() => {
         this.$router.push("/login");

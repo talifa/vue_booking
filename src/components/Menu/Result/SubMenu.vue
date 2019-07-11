@@ -2,7 +2,6 @@
   #submenu
     router-link(:to="{ name: 'outbound' }").link Outbound
     router-link(:to="{ name: 'inbound' }").link Inbound
-    router-view
 </template>
 
 <script>

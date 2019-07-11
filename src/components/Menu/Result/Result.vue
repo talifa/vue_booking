@@ -1,28 +1,20 @@
 <template lang="pug">
   #Result
     .container
-      //- div(v-for='tab in tabs', v-bind:key='tab', v-bind:class="['link', { active: currentTab === tab }]", v-on:click='currentTab = tab') {{ tab }}
       .search-header
         div {{flightData.from_country ? flightData.from_country.full: ""}}
         div.arrow
         div {{flightData.to_country ? flightData.to_country.full : "" }}
 
-        //- div.flights-length ({{flights.length}} options)
       carousel.date-slider(:perPage='1', :navigationEnabled="true", :paginationEnabled="false", :navigationNextLabel="'>'", :navigationPrevLabel="'<'" @pageChange='currentTab = "Flight"')
         img 
-        slide.date( v-for='(date, index) in dates', v-bind:key='index' ) 
+        slide.date( v-for='(date, index) in flightData.dateArray', v-bind:key='index' ) 
           span {{customFormatter(date)}} 
-        //- slide.date(v-if="flightData.returning" v-bind:key="'Inbound'" v-on:click='currentTab = "Inbound"') 
-        //-   span {{customFormatter(flightData.returning)}}
+
       component.tab(v-bind:is='currentTabComponent', :flights='getFlights', :tariffdata="tariffdata")
-
-
-
 </template>
 
 <script>
-import Outbound from "./Outbound";
-import Inbound from "./Inbound";
 import Tariff from "./Tariff";
 import Flight from "./Flight";
 import { mapGetters, mapActions } from "vuex";
@@ -30,15 +22,12 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   name: "Result",
   components: {
-    Outbound,
-    Inbound,
     Tariff,
     Flight
   },
 
   data: () => ({
     currentTab: "Flight",
-    tabs: ["Outbound", "Inbound"],
     tariffdata: [
       {
         name: "Saver",
@@ -84,31 +73,12 @@ export default {
     currentTabComponent: function() {
       return this.currentTab.toLowerCase();
     },
-    dates: function() {
-      return this.getDates(
-        this.flightData.departing,
-        this.flightData.returning
-      );
-    },
+
     ...mapGetters(["flightData"])
   },
   methods: {
     ...mapActions(["fetchFlights"]),
 
-    getDates(startDate, stopDate) {
-      Date.prototype.addDays = function(days) {
-        this.setDate(this.getDate() + days);
-        return this;
-      };
-      let dateArray = [];
-      let currentDate = startDate;
-      while (currentDate <= stopDate) {
-        dateArray.push(new Date(currentDate));
-        currentDate = currentDate.addDays(1);
-      }
-      // console.log(dateArray);
-      return dateArray;
-    },
     customFormatter(date) {
       let date_new;
       let options = {
