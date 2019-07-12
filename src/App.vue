@@ -130,6 +130,7 @@ h1 {
   }
 
   .vs__search {
+    padding-left: 50%;
   }
 
   .vs__search::placeholder, .vs__dropdown-toggle, .vs__selected-options {

@@ -2,16 +2,16 @@
   #Result
     .container
       .search-header
-        div {{flightData.from_country ? flightData.from_country.full: ""}}
+        div {{flightData[0].from_country ? flightData[0].from_country.full: ""}}
         div.arrow
-        div {{flightData.to_country ? flightData.to_country.full : "" }}
+        div {{flightData[0].to_country ? flightData[0].to_country.full : "" }}
 
-      carousel.date-slider(:perPage='1', :navigationEnabled="true", :paginationEnabled="false", :navigationNextLabel="'>'", :navigationPrevLabel="'<'" @pageChange='currentTab = "Flight"')
+      carousel.date-slider(:perPage='1', :navigationEnabled="true", :paginationEnabled="false", :navigationNextLabel="'>'", :navigationPrevLabel="'<'" @pageChange='fetchFlights()')
         img 
-        slide.date( v-for='(date, index) in flightData.dateArray', v-bind:key='index' ) 
+        slide.date( v-for='(date, index) in flightData[0].dateArray', v-bind:key='index' ) 
           span {{customFormatter(date)}} 
 
-      component.tab(v-bind:is='currentTabComponent', :flights='getFlights', :tariffdata="tariffdata")
+      component.tab(v-bind:is='currentTabComponent', :flights='flights', :tariffdata="tariffdata")
 </template>
 
 <script>
@@ -21,51 +21,14 @@ import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "Result",
+  props: ["flights", "tariffdata"],
   components: {
     Tariff,
     Flight
   },
 
   data: () => ({
-    currentTab: "Flight",
-    tariffdata: [
-      {
-        name: "Saver",
-        Checked_Baggage: "10kg",
-        Cabin_Baggage: "1 x 7kg",
-        Regular_Seat_Selection: "At a charge",
-        Skyward_Miles: "510 Miles",
-        Upgrade_To_Business: "47,500 Miles",
-        Changes_Fees: "INR 4,000",
-        Refund_Fees: "Restricted",
-        icon: "../../assets/img/bagg.svg",
-        inr: "22,677"
-      },
-      {
-        name: "Flex",
-        Checked_Baggage: "20kg",
-        Cabin_Baggage: "1 x 7kg",
-        Regular_Seat_Selection: "At a charge",
-        Skyward_Miles: "510 Miles",
-        Upgrade_To_Business: "47,500 Miles",
-        Changes_Fees: "INR 4,000",
-        Refund_Fees: "Restricted",
-        icon: "../../assets/img/bagg.svg",
-        inr: "22,677"
-      },
-      {
-        name: "Flex Plus",
-        Checked_Baggage: "30kg",
-        Cabin_Baggage: "1 x 7kg",
-        Regular_Seat_Selection: "At a charge",
-        Skyward_Miles: "510 Miles",
-        Upgrade_To_Business: "47,500 Miles",
-        Changes_Fees: "INR 4,000",
-        Refund_Fees: "Restricted",
-        icon: "../../assets/img/bagg.svg",
-        inr: "22,677"
-      }
-    ]
+    currentTab: "Flight"
   }),
   computed: {
     ...mapGetters(["getFlights"]),

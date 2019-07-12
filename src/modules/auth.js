@@ -15,17 +15,14 @@ const getters = {
 const mutations = {
   auth_request(state) {
     state.status = "loading";
-    console.log(state);
   },
   auth_success(state, data) {
     state.status = "success";
     state.token = data.token;
     state.name = data.name;
-    console.log(state);
   },
   auth_error(state) {
     state.status = "error";
-    console.log(state);
   },
   logout(state) {
     state.status = "";

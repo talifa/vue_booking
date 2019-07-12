@@ -6,8 +6,8 @@
           .flight-top
             .flight-data
               .from 
-                .airport {{flightData.from_country.short}}
-                .when {{customFormatter(flightData.departing)}}
+                .airport {{flightData[0].from_country.short}}
+                .when {{customFormatter(flightData[0].departing)}}
               .delay
                 .long 04 hrs 15 mins
                 svg(xmlns='http://www.w3.org/2000/svg' width='200' height='15' viewbox='0 0 200 15')
@@ -22,8 +22,8 @@
 
                 .transfer Non-stop
               .to
-                .airport {{flightData.to_country.short}}
-                .when  {{customFormatter(flightData.returning)}}
+                .airport {{flightData[0].to_country.short}}
+                .when  {{customFormatter(flightData[0].returning)}}
             .flight-details
               .model
                 img(src="~@/assets/img/plane.png" height='18px') 

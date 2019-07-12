@@ -1,13 +1,14 @@
 import Axios from "axios";
 
 const state = {
-  flight: {},
+  flight: [],
   from: null,
   to: null
 };
 
 const getters = {
   flightData: state => state.flight,
+
   getCityListFrom: state => {
     return state.from;
   },
@@ -24,7 +25,7 @@ const mutations = {
     state.to = payload;
   },
   setFlightData(state, payload) {
-    state.flight = payload;
+    state.flight.unshift(payload);
   }
 };
 

@@ -6,7 +6,7 @@
           .fieldset
             div.form-group(v-bind:class="{ error_br: errors.from }")
                 label(for='from', ) From 
-                v-select#from.form-control.bold(type='text', spellcheck="false", placeholder="Choose", :options="getCityListFrom", label='short', v-model='from_country')
+                v-select#from.form-control.bold(type='text', spellcheck="false", placeholder="", :options="getCityListFrom", label='short', v-model='from_country')
                   template(slot="from_option" slot-scope="from_option")
                     span {{ from_option.full }}
                 span.bottom_text {{ from_country ? from_country.full : ''}}
@@ -15,7 +15,7 @@
               
             div.form-group(v-bind:class="{ error_br: errors.to }")
                 label(for='to', ) To
-                v-select#to.form-control.bold(type='text', spellcheck="false", placeholder="Choose", :options="getCityListTo", label='short', v-model='to_country')
+                v-select#to.form-control.bold(type='text', spellcheck="false", placeholder="", :options="getCityListTo", label='short', v-model='to_country')
                   template(slot="to_option" slot-scope="to_option")
                     span {{ to_option.full }}
                 span.bottom_text {{ to_country ? to_country.full : ''}}
@@ -93,7 +93,6 @@ export default {
         dateArray.push(new Date(currentDate));
         currentDate = currentDate.addDays(1);
       }
-      console.log(dateArray);
       return dateArray;
     },
     search() {
