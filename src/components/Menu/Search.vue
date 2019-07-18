@@ -81,7 +81,7 @@ export default {
     ]
   }),
   methods: {
-    ...mapActions(["fetchCityList"]),
+    ...mapActions(["fetchCityList", "addFlights"]),
     getDates(startDate, stopDate) {
       Date.prototype.addDays = function(days) {
         this.setDate(this.getDate() + days);
@@ -104,8 +104,11 @@ export default {
         to_country: this.to_country
       };
       this.flight.dateArray = this.getDates(this.departing, this.returning);
+      
       this.$store
         .dispatch("search", this.flight)
+        
+        .then(() => this.addFlights(this.flight))
         .then(() => this.$router.push("outbound"))
         .catch(err => console.log("result", err));
     },

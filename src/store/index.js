@@ -4,6 +4,7 @@ import Axios from "axios";
 import auth from "../modules/auth";
 import search from "../modules/search";
 import flights from "../modules/flights";
+import idb from "../modules/idb";
 
 Vue.use(Vuex);
 
@@ -15,6 +16,7 @@ export const store = new Vuex.Store({
   modules: {
     auth,
     search,
-    flights
+    flights,
+    idb
   }
 });

@@ -3,8 +3,8 @@
     Menu
     .container
       h1 Search history
-      ul.history-list 
-        li.history-item(v-for='item in flightData')
+      ul.history-list  
+        li.history-item(v-for='item in getflightsList')
           p From: #[span {{item.from_country.full}}]
           p To: #[span {{item.to_country.full}}]
           p Date: #[span {{customFormatter(item.departing)}} - {{customFormatter(item.returning)}}]
@@ -15,7 +15,7 @@
 
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapState, mapGetters } from "vuex";
 
 export default {
   name: "History",
@@ -25,9 +25,13 @@ export default {
     isCollapsed: false
   }),
   computed: {
-    ...mapGetters(["flightData"])
+    ...mapGetters(["flightData", "getflightsList"]),
+    ...mapState(["flightsList"])
   },
+
   methods: {
+    ...mapActions(["checkStorage"]),
+
     customFormatter(date) {
       let date_new;
       let options = {
@@ -47,7 +51,11 @@ export default {
       return date_new;
     }
   },
-  created: function() {}
+  created: function() {},
+  mounted() {
+    this.checkStorage();
+    console.log(this.flightsList);
+  }
 };
 </script>
 
