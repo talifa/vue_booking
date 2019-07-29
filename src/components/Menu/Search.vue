@@ -110,9 +110,10 @@ export default {
         
         .then(() => this.addFlights(this.flight))
         .then(() => this.$router.push("outbound"))
-        .catch(err => console.log("result", err));
+        // eslint-disable-next-line
+        .catch(err => console.log(err));
     },
-    switcher: function(event) {
+    switcher: function() {
       this.buffer = this.from_country;
       this.from_country = this.to_country;
       this.to_country = this.buffer;
@@ -169,7 +170,7 @@ export default {
       };
     }
   },
-  mounted() {
+  created() {
     this.fetchCityList();
   }
 };

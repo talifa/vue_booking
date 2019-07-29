@@ -10,7 +10,7 @@
   "dependencies": {
     "axios": "0.19.0",
     "css-loader": "3.0.0",
-    "idb": "4.0.4",
+    "idb": "^4.0.4",
     "pug": "2.0.3",
     "pug-plain-loader": "1.0.0",
     "stylus": "0.54.5",

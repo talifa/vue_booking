@@ -36,8 +36,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,700&display=swap');
-
+// @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,700&display=swap');
 @font-face {
   font-family: 'Helvetica Neue Light';
   font-style: normal;
@@ -64,7 +63,7 @@ export default {
 }
 
 html * {
-  font-family: 'Helvetica Neue Medium', 'Roboto', sans-serif;
+  font-family: 'Helvetica Neue Light', 'Roboto', sans-serif;
 }
 
 *::placeholder {

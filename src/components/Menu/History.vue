@@ -53,8 +53,7 @@ export default {
   },
   created: function() {},
   mounted() {
-    this.checkStorage();
-    console.log(this.flightsList);
+    // this.checkStorage();
   }
 };
 </script>

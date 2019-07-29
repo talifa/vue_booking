@@ -1,18 +1,13 @@
 const checkStorage = key => {
-  if (window.localStorage.getItem(key)) {
-    try {
-      return JSON.parse(window.localStorage.getItem(key));
-    } catch (e) {
-      window.localStorage.removeItem(key);
-      throw e;
-    }
+  if (localStorage.getItem(key)) {
+    return JSON.parse(localStorage.getItem(key));
   } else {
-    return null;
+    return window.localStorage.removeItem(key);
   }
 };
 
 const saveToStorage = (key, value) =>
-  window.localStorage.setItem(key, JSON.stringify(value));
+  localStorage.setItem(key, JSON.stringify(value));
 
 export default {
   checkStorage,

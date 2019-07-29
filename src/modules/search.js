@@ -2,8 +2,8 @@ import Axios from "axios";
 
 const state = {
   flight: [],
-  from: null,
-  to: null
+  from: [],
+  to: []
 };
 
 const getters = {
@@ -35,7 +35,7 @@ const actions = {
       commit("setFlightData", data);
     }
   },
-  fetchCityList: async ({ commit }, data) => {
+  fetchCityList: async ({ commit }) => {
     Axios({
       url: "https://5d25e031d924540014931b09.mockapi.io/from",
       method: "GET",

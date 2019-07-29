@@ -15,7 +15,6 @@ const getters = {
 const mutations = {
   setState(state, data) {
     state.flightsList = data;
-    // console.log(state.flightsList);
   },
   addFlights(state, newFlight) {
     state.flightsList.push(newFlight);
@@ -40,7 +39,6 @@ const actions = {
       commit("setState", data);
     } catch (err) {
       commit("setState", { data: [] });
-      console.log(err);
     }
   },
   saveFlights: async ({ state }) => {
