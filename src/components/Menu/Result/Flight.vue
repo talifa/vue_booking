@@ -91,12 +91,7 @@ export default {
       this.isCollapsed = !this.isCollapsed;
     }
   },
-  created: function() {
-    // if (this.flightData.length === 0) {
-    //   console.log(this.flightData);
-    //   this.$router.push("search");
-    // }
-  }
+  created: function() {}
 };
 </script>
 
@@ -188,7 +183,6 @@ export default {
 
         .to {
           text-align: right;
-          
         }
 
         .delay {

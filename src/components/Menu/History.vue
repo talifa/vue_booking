@@ -2,9 +2,9 @@
   #History
     Menu
     .container
-      h1 Search history
-      ul.history-list  
-        li.history-item(v-for='item in flightsList')
+      h1 Search history 
+      ul.history-list   
+        li.history-item(v-for='item in getFlightsList' @click="goToResult(item)") 
           p From: #[span {{item.from_country.full}}]
           p To: #[span {{item.to_country.full}}]
           p Date: #[span {{customFormatter(item.departing)}} - {{customFormatter(item.returning)}}]
@@ -31,24 +31,43 @@ export default {
 
   methods: {
     ...mapActions(["checkFlights"]),
-
+    getDates(startDate, stopDate) {
+      Date.prototype.addDays = function(days) {
+        this.setDate(this.getDate() + days);
+        return this;
+      };
+      let dateArray = [];
+      let currentDate = startDate;
+      while (currentDate <= stopDate) {
+        dateArray.push(new Date(currentDate));
+        currentDate = currentDate.addDays(1);
+      }
+      return dateArray;
+    },
     customFormatter(date) {
-      let date_new;
-      let options = {
+      let options1 = {
         weekday: "long",
         year: "numeric",
         day: "numeric",
-        month: "long",
-        hour12: false,
-        hour: "numeric",
-        minute: "numeric"
+        month: "long"
       };
-
+      date = new Date(date);
       if (date) {
-        date_new = date.toLocaleString("en-US", options);
+        date = date.toLocaleString("en-US", options1);
       }
 
-      return date_new;
+      return date;
+    },
+    goToResult(item) {
+      item.dateArray = ["Thursday, August 1, 2019 "];
+      item.departing = "04:08";
+      item.returning = "04:08";
+
+      this.$store
+        .dispatch("search", item)
+
+        .then(() => this.$router.push("outbound"))
+        .catch(err => console.log(err));
     }
   },
   created: function() {

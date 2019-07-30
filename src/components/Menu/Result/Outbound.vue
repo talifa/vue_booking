@@ -59,13 +59,11 @@ export default {
   methods: {
     ...mapActions(["fetchFlights"])
   },
-  created() {},
-  mounted() {
+  created() {
     this.fetchFlights();
   }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="stylus">
-</style>
+<style scoped lang="stylus"></style>

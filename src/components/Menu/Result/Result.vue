@@ -2,13 +2,13 @@
   #Result
     .container
       .search-header
-        div {{flightData[0].from_country ? flightData[0].from_country.full: ""}}
+        div {{flightData[0] ? flightData[0].from_country.full: ""}}
         div.arrow
-        div {{flightData[0].to_country ? flightData[0].to_country.full : "" }}
+        div {{flightData[0] ? flightData[0].to_country.full : "" }}
 
       carousel.date-slider(:perPage='1', :navigationEnabled="true", :paginationEnabled="false", :navigationNextLabel="'>'", :navigationPrevLabel="'<'" @pageChange='fetchFlights()')
         img 
-        slide.date( v-for='(date, index) in flightData[0].dateArray', v-bind:key='index' ) 
+        slide.date( v-for='(date, index) in dateArr', v-bind:key='index' ) 
           span {{customFormatter(date)}} 
 
       component.tab(v-bind:is='currentTabComponent', :flights='flights', :tariffdata="tariffdata")
@@ -31,6 +31,9 @@ export default {
     currentTab: "Flight"
   }),
   computed: {
+    dateArr() {
+      return this.flightData[0] ? this.flightData[0].dateArray : [];
+    },
     ...mapGetters(["getFlights"]),
 
     currentTabComponent: function() {
@@ -57,17 +60,16 @@ export default {
       return date_new;
     }
   },
-  created: function() {
-    const data = JSON.stringify(this.$store.getters.flightData);
-    // console.log(data);
+  created() {
+    this.fetchFlights();
 
-    if (data === "{}") {
+    const data = JSON.stringify(this.flightData);
+
+    if (data === "[]") {
       this.$router.push("search");
     }
   },
-  mounted() {
-    this.fetchFlights();
-  }
+  mounted() {}
 };
 </script>
 <style scoped lang="stylus">

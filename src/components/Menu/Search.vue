@@ -104,10 +104,9 @@ export default {
         to_country: this.to_country
       };
       this.flight.dateArray = this.getDates(this.departing, this.returning);
-      
       this.$store
         .dispatch("search", this.flight)
-        
+
         .then(() => this.addFlights(this.flight))
         .then(() => this.$router.push("outbound"))
         // eslint-disable-next-line
