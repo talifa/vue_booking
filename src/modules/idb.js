@@ -7,7 +7,7 @@ const state = {
 };
 
 const getters = {
-  getflightsList: state => {
+  getFlightsList: state => {
     return state.flightsList;
   }
 };
@@ -17,7 +17,9 @@ const mutations = {
     state.flightsList = data;
   },
   addFlights(state, newFlight) {
-    state.flightsList.push(newFlight);
+    const data = []
+    data.push(newFlight);
+    state.flightsList = data;
   }
 };
 
@@ -26,26 +28,37 @@ const actions = {
     commit("addFlights", newFlight);
     dispatch("saveFlights");
   },
-  checkStorage: async ({ commit }) => {
+  checkFlights: async ({ commit }) => {
     try {
-      let data = await idbs.checkStorage("flightsList");
+      let data = await idbs.checkStorage('flightsList');
+      if (data) {
+        commit("setState", data)
+      }
 
       // IndexedDB did not find the data, try localStorage
-      if (data === undefined) data = ls.checkStorage("flightsList");
+      if (data === undefined) {
+        data = ls.checkStorage('flightsList')
+        commit("setState", data)
+      }
 
       // LocalStorage did not find the data, reset it
-      if (data === null) data = [];
+      if (data === null) commit("setState", [])
 
-      commit("setState", data);
+
     } catch (err) {
-      commit("setState", { data: [] });
+      commit("setState", []);
     }
   },
   saveFlights: async ({ state }) => {
     try {
-      await Promise.all(idbs.saveToStorage("flightsList", state.flightsList));
+      await Promise.all(idbs.saveToStorage('flightsList', state.flightsList));
+      console.log('Promise')
+
+
     } catch (e) {
-      ls.saveToStorage("flightsList", state.flightsList);
+      ls.saveToStorage('flightsList', state.flightsList);
+      console.log('catch')
+
     }
   }
 };

@@ -1,43 +1,50 @@
+/* eslint-disable */
 import { openDB } from 'idb'
 
-const dbPromise = () => {
+(() => {
+  'use strict'
   if (!('indexedDB' in window)) {
-    throw new Error('Browser does not support IndexedDB')
+    console.warn('IndexedDB not supported')
+    return;
   }
 
-  return openDB('BookingDB', 1, upgradeDB => {
-    if (!upgradeDB.objectStoreNames.contains('flightsList')) {
-      upgradeDB.createObjectStore('flightsList')
-    }
-  })
-}
 
-const checkStorage = async storeName => {
-  try {
-    const db = await dbPromise()
+})()
+
+const dbPromise = openDB('Booking', 1, upgradeDB => {
+
+  upgradeDB.createObjectStore('flightsList', { keyPath: "id" })
+}).then(db => console.log('success createObjectStore'))
+
+
+const checkStorage = storeName => {
+  dbPromise.then((db) => {
     const tx = db.transaction(storeName, 'readonly')
     const store = tx.objectStore(storeName)
-
     return store.get(storeName)
-  } catch (error) {
-    return error
-  }
+
+  })
+    .then(() => {
+      console.log('checkStorage complete')
+    })
+    .catch(() => {
+      console.log('checkStorage failed')
+    })
 }
 
-const saveToStorage = async (storeName, tasks) => {
-  try {
-    const db = await dbPromise()
+const saveToStorage = (storeName, tasks) => {
+  dbPromise.then((db) => {
     const tx = db.transaction(storeName, 'readwrite')
     const store = tx.objectStore(storeName)
-
     store.put(tasks, storeName)
-
     return tx.complete
-  } catch (error) {
-    return error
-  }
+  }).then(() => {
+    console.log('saveToStorage complete')
+  })
+    .catch(() => {
+      console.log('saveToStorage failed')
+    })
 }
-
 export default {
   checkStorage,
   saveToStorage

@@ -2,7 +2,7 @@ const checkStorage = key => {
   if (localStorage.getItem(key)) {
     return JSON.parse(localStorage.getItem(key));
   } else {
-    return window.localStorage.removeItem(key);
+    return localStorage.removeItem(key);
   }
 };
 

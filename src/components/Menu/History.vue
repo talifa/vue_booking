@@ -4,7 +4,7 @@
     .container
       h1 Search history
       ul.history-list  
-        li.history-item(v-for='item in getflightsList')
+        li.history-item(v-for='item in flightsList')
           p From: #[span {{item.from_country.full}}]
           p To: #[span {{item.to_country.full}}]
           p Date: #[span {{customFormatter(item.departing)}} - {{customFormatter(item.returning)}}]
@@ -25,12 +25,12 @@ export default {
     isCollapsed: false
   }),
   computed: {
-    ...mapGetters(["flightData", "getflightsList"]),
+    ...mapGetters(["getFlightsList"]),
     ...mapState(["flightsList"])
   },
 
   methods: {
-    ...mapActions(["checkStorage"]),
+    ...mapActions(["checkFlights"]),
 
     customFormatter(date) {
       let date_new;
@@ -51,9 +51,8 @@ export default {
       return date_new;
     }
   },
-  created: function() {},
-  mounted() {
-    // this.checkStorage();
+  created: function() {
+    this.checkFlights();
   }
 };
 </script>
