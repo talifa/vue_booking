@@ -9,7 +9,7 @@
       carousel.date-slider(:perPage='1', :navigationEnabled="true", :paginationEnabled="false", :navigationNextLabel="'>'", :navigationPrevLabel="'<'" @pageChange='fetchFlights()')
         img 
         slide.date( v-for='(date, index) in dateArr', v-bind:key='index' ) 
-          span {{customFormatter(date)}} 
+          span {{customFormatter(new Date(date))}} 
 
       component.tab(v-bind:is='currentTabComponent', :flights='flights', :tariffdata="tariffdata")
 </template>

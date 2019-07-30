@@ -18,7 +18,14 @@ const mutations = {
     state.flightsList = data;
   },
   addFlights(state, newFlight) {
-    state.flightsList.push(newFlight);
+    if (state.flightsList === 'undefined') {
+      state.flightsList = []
+      state.flightsList.push(newFlight);
+
+    }
+    else {
+      state.flightsList.push(newFlight);
+    }
   }
 };
 

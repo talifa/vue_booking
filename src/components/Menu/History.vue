@@ -45,23 +45,22 @@ export default {
       return dateArray;
     },
     customFormatter(date) {
-      let options1 = {
+      let options = {
         weekday: "long",
         year: "numeric",
         day: "numeric",
         month: "long"
       };
-      date = new Date(date);
       if (date) {
-        date = date.toLocaleString("en-US", options1);
+        date = new Date(date);
+        date = date.toLocaleString("en-US", options);
       }
 
       return date;
     },
     goToResult(item) {
-      item.dateArray = ["Thursday, August 1, 2019 "];
-      item.departing = "04:08";
-      item.returning = "04:08";
+      item.departing = new Date(item.departing);
+      item.returning = new Date(item.returning);
 
       this.$store
         .dispatch("search", item)

@@ -103,7 +103,11 @@ export default {
         from_country: this.from_country,
         to_country: this.to_country
       };
-      this.flight.dateArray = this.getDates(this.departing, this.returning);
+      if (!this.returning) {
+        this.flight.dateArray = [this.departing];
+      } else {
+        this.flight.dateArray = this.getDates(this.departing, this.returning);
+      }
       this.$store
         .dispatch("search", this.flight)
 
