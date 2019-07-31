@@ -38,7 +38,6 @@ const actions = {
     try {
       let data = await idbs.getAllFlights();
       if (data) {
-        console.log('setState idbs')
 
         commit("setState", data)
       }

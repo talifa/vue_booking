@@ -30,11 +30,13 @@ export function getMainDb() {
 }
 
 function createObjectStores(db) {
-    const flightsListStore = db.createObjectStore(storeName, {
+    return db.createObjectStore(storeName, {
         keyPath: 'id',
         autoIncrement: true,
     });
-    // flightsListStore.createIndex('name', 'name', { unique: false });
+}
+export async function deleteDB() {
+    return indexedDB.deleteDatabase(flights);
 }
 
 export async function saveflightToStore(flight) {
@@ -90,7 +92,7 @@ export async function getItemFromStore(id, store) {
 
 export async function saveItemToStore(item, store) {
     const db = await getMainDb();
-    const data = await new Promise((resolve, reject) => {
+    const data = await new Promise((resolve) => {
         const request = db
             .transaction(store, 'readwrite')
             .objectStore(store)
@@ -127,7 +129,7 @@ export async function updateExistingFlight(flight) {
             const updatedFlight = Object.assign({}, storedFlight, flight);
             const requestUpdate = objectStore.put(updatedFlight);
             requestUpdate.onerror = onerror;
-            requestUpdate.onsuccess = (evUpdate) => {
+            requestUpdate.onsuccess = () => {
                 resolve(true);
             };
         };
@@ -150,8 +152,10 @@ export async function deleteflightFromStore(item) {
 
 
 
+
 export default {
     getAllFlights,
     saveFlightToStore,
+    deleteDB
 
 }

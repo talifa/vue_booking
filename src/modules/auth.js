@@ -1,4 +1,5 @@
 import axios from "axios";
+import idbs from "../api/idbs";
 
 const state = {
   status: "",
@@ -55,19 +56,21 @@ const actions = {
         commit("auth_error");
         localStorage.removeItem("token");
         localStorage.removeItem("name");
+        idbs.deleteDB()
       }
     } catch (err) {
       commit("auth_error");
       localStorage.removeItem("token");
       localStorage.removeItem("name");
-      // console.log(err);
+      idbs.deleteDB()
     }
   },
   logout({ commit }) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       commit("logout");
       localStorage.removeItem("token");
       localStorage.removeItem("name");
+      idbs.deleteDB()
       delete axios.defaults.headers.common["Authorization"];
       resolve();
     });
