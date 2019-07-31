@@ -8,23 +8,30 @@ import { openDB } from 'idb'
     return;
   }
 })()
+const dbPromise = async () => {
+  if (!('indexedDB' in window)) {
+    throw new Error('Browser does not support IndexedDB')
+  }
 
-// const dbPromise1 = async () => {
-//   await openDB('Booking', 1, upgradeDB => {
-//     if (!upgradeDB.objectStoreNames.contains('flightsList')) {
-//       upgradeDB.createObjectStore('flightsList')
-//     }
-//   }).then(db => console.log('create', db.objectStoreNames))
-// }
-async function dbPromise() {
-  const db = await openDB('Booking', 1, upgradeDB => {
-    upgradeDB.createObjectStore('flightsList')
-
-    if (!upgradeDB.objectStoreNames.contains('flightsList')) {
-      upgradeDB.createObjectStore('flightsList')
+  return await indexedDB.open('Booking', 1, upgradeDb => {
+    if (!upgradeDb.objectStoreNames.contains('flightsList')) {
+      upgradeDb.createObjectStore('flightsList')
     }
-  }).then(db => console.log('create', db));
+
+
+  })
 }
+// const dbPromise = openDB('Booking', 1);
+
+
+// dbPromise.onupgradeneeded = function (event) {
+//   var db = event.target.result;
+
+//   return db.createObjectStore("flightsList", { keyPath: "taskTitle", autoIncrement: true });
+
+// };
+
+
 const checkStorage = async storeName => {
   const db = await dbPromise()
     .then(() => {
@@ -34,8 +41,8 @@ const checkStorage = async storeName => {
     }).then(() => {
       console.log('checkStorage complete')
     })
-    .catch(() => {
-      console.log('checkStorage failed')
+    .catch((err) => {
+      console.log('checkStorage failed', err)
     })
 
 }
@@ -53,8 +60,8 @@ const saveToStorage = async (storeName, tasks) => {
     }).then(() => {
       console.log('saveToStorage complete')
     })
-    .catch(() => {
-      console.log('saveToStorage failed')
+    .catch((err) => {
+      console.log('saveToStorage failed', err)
     })
 }
 export default {
