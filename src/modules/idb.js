@@ -1,7 +1,7 @@
 // import Axios from "axios";
 /* eslint-disable */
 import ls from "../api/localStorageService";
-import idbs from "../api/indexedDBService";
+import idbs from "../api/idbs";
 
 const state = {
   flightsList: []
@@ -32,11 +32,11 @@ const mutations = {
 const actions = {
   addFlights: ({ commit, dispatch }, newFlight) => {
     commit("addFlights", newFlight);
-    dispatch("saveFlights");
+    dispatch("saveFlights", newFlight);
   },
   checkFlights: async ({ commit }) => {
     try {
-      let data = await idbs.checkStorage('flightsList');
+      let data = await idbs.getAllFlights();
       if (data) {
         console.log('setState idbs')
 
@@ -46,7 +46,6 @@ const actions = {
       // IndexedDB did not find the data, try localStorage
       if (data === undefined) {
         data = ls.checkStorage('flightsList')
-        console.log('setState ls')
         commit("setState", data)
       }
 
@@ -56,17 +55,17 @@ const actions = {
 
     } catch (err) {
       commit("setState", []);
+      console.log(err)
     }
   },
-  saveFlights: async ({ state }) => {
+  saveFlights: async ({ state }, newFlight) => {
     try {
-      await Promise.all(idbs.saveToStorage('flightsList', state.flightsList));
-      console.log('save idbs')
+      await idbs.saveFlightToStore(newFlight);
 
 
     } catch (e) {
       ls.saveToStorage('flightsList', state.flightsList);
-      console.log('save ls')
+      console.log(e)
 
     }
   }
