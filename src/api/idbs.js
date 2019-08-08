@@ -92,6 +92,7 @@ export async function getItemFromStore(id, store) {
 
 export async function saveItemToStore(item, store) {
     const db = await getMainDb();
+    // eslint-disable-next-line
     const data = await new Promise((resolve) => {
         const request = db
             .transaction(store, 'readwrite')

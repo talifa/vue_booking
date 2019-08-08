@@ -66,7 +66,7 @@ export default {
         .dispatch("search", item)
 
         .then(() => this.$router.push("outbound"))
-        .catch(err => console.log(err));
+        .catch(() => {});
     }
   },
   created: function() {
